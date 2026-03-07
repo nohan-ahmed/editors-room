@@ -30,6 +30,8 @@ import {
 
 import AboutSection from './components/AboutSection';
 import ProjectsSection from './components/ProjectsSection';
+import TeamSection from './components/TeamSection';
+import TestimonialsSection from './components/TestimonialsSection';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -343,143 +345,6 @@ const FeaturesSection = () => {
               <h3 className="text-2xl font-display font-bold mb-4">{feature.title}</h3>
               <p className="text-zinc-500 leading-relaxed">{feature.desc}</p>
             </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const TeamSection = () => {
-  const team = [
-    { name: 'Alex Rivers', role: 'Creative Director', bio: 'Visionary designer with 10+ years of experience.', image: 'https://i.pravatar.cc/150?u=alex' },
-    { name: 'Sarah Chen', role: 'Lead Developer', bio: 'Full-stack expert specializing in modern frameworks.', image: 'https://i.pravatar.cc/150?u=sarah' },
-    { name: 'Marcus Thorne', role: 'Strategy Lead', bio: 'Helping brands navigate the digital landscape.', image: 'https://i.pravatar.cc/150?u=marcus' },
-    { name: 'Elena Vance', role: 'AI Specialist', bio: 'Integrating machine intelligence into creative workflows.', image: 'https://i.pravatar.cc/150?u=elena' },
-  ];
-
-  return (
-    <section id="team" className="py-32 relative">
-      <div className="max-w-7xl mx-auto px-6">
-        <div className="text-center mb-24">
-          <span className="text-brand font-bold tracking-[0.3em] uppercase text-sm mb-4 block">Our Team</span>
-          <h2 className="text-5xl md:text-7xl font-display font-bold tracking-tighter">The minds behind the magic.</h2>
-        </div>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          {team.map((member, idx) => (
-            <motion.div 
-              key={member.name}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: idx * 0.1, duration: 0.8 }}
-              className="group relative"
-            >
-              <div className="relative aspect-[4/5] rounded-[40px] overflow-hidden mb-6 border border-white/10">
-                <img 
-                  src={member.image} 
-                  alt={member.name} 
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-700"
-                  referrerPolicy="no-referrer"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60" />
-                
-                {/* Social Icons on Hover */}
-                <div className="absolute bottom-8 left-0 right-0 flex justify-center gap-4 opacity-0 translate-y-10 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
-                  <a href="#" className="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center hover:bg-brand hover:text-white transition-colors">
-                    <Linkedin size={18} />
-                  </a>
-                  <a href="#" className="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center hover:bg-brand hover:text-white transition-colors">
-                    <Twitter size={18} />
-                  </a>
-                  <a href="#" className="w-10 h-10 rounded-full bg-white text-black flex items-center justify-center hover:bg-brand hover:text-white transition-colors">
-                    <Github size={18} />
-                  </a>
-                </div>
-              </div>
-              <h3 className="text-2xl font-display font-bold mb-1">{member.name}</h3>
-              <p className="text-brand font-medium text-sm mb-3">{member.role}</p>
-              <p className="text-zinc-500 text-sm leading-relaxed">{member.bio}</p>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-const TestimonialCard = ({ t, idx }: { t: any, idx: number }) => {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: cardRef,
-    offset: ["start end", "end start"]
-  });
-
-  // More pronounced parallax movement for the photo
-  const y = useTransform(scrollYProgress, [0, 1], [25, -25]);
-
-  return (
-    <motion.div 
-      ref={cardRef}
-      initial={{ opacity: 0, y: 40 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true }}
-      transition={{ delay: idx * 0.15, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-      whileHover={{ 
-        y: -12,
-        transition: { duration: 0.4 }
-      }}
-      className="p-12 rounded-[40px] bg-white/5 border border-white/10 relative group transition-colors hover:border-brand/30"
-    >
-      <div className="flex gap-1 mb-8">
-        {[...Array(5)].map((_, i) => (
-          <Star key={i} size={16} className="text-brand fill-brand" />
-        ))}
-      </div>
-      <p className="text-2xl font-display font-medium leading-relaxed mb-10 italic text-zinc-200">“{t.quote}”</p>
-      <div className="flex items-center gap-4">
-        <div className="relative w-16 h-16 rounded-full overflow-hidden border-2 border-brand/30 shadow-[0_0_20px_rgba(255,77,0,0.15)]">
-          <motion.img 
-            style={{ y }}
-            src={t.avatar} 
-            alt={t.name} 
-            className="absolute -top-6 left-0 w-full h-[160%] object-cover grayscale group-hover:grayscale-0 transition-all duration-700" 
-            referrerPolicy="no-referrer" 
-          />
-        </div>
-        <div>
-          <h4 className="font-bold text-lg text-white">{t.name}</h4>
-          <p className="text-zinc-500 text-sm font-medium uppercase tracking-widest">{t.role}</p>
-        </div>
-      </div>
-      
-      {/* Decorative corner element */}
-      <div className="absolute top-6 right-6 opacity-10 group-hover:opacity-30 transition-opacity">
-        <Sparkles size={24} className="text-brand" />
-      </div>
-    </motion.div>
-  );
-};
-
-const TestimonialsSection = () => {
-  const testimonials = [
-    { name: 'Lena Brooks', role: 'CEO at Nexora', quote: 'They translated our vision into a modern, scalable digital identity — crafted, fast, and ahead of the curve.', avatar: 'https://i.pravatar.cc/150?u=lena' },
-    { name: 'David Lin', role: 'Product Lead at Zupitar', quote: 'With design and attention to detail, they improved our product — making it simple, clear, and enjoyable.', avatar: 'https://i.pravatar.cc/150?u=david' },
-    { name: 'Uba Micheal', role: 'Founder of Fanoos', quote: 'The team\'s ability to blend creative flair with technical excellence is truly remarkable. Our conversion rates tripled.', avatar: 'https://i.pravatar.cc/150?u=uba' },
-  ];
-
-  return (
-    <section id="testimonials" className="py-32 bg-zinc-950/50 relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="text-center mb-24">
-          <span className="text-brand font-bold tracking-[0.3em] uppercase text-sm mb-4 block">Testimonials</span>
-          <h2 className="text-5xl md:text-7xl font-display font-bold tracking-tighter">What our partners say.</h2>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {testimonials.map((t, idx) => (
-            <TestimonialCard key={t.name} t={t} idx={idx} />
           ))}
         </div>
       </div>
