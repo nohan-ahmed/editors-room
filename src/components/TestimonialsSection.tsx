@@ -125,12 +125,15 @@ const TestimonialCard: React.FC<{ testimonial: Testimonial; index: number }> = (
 
 const TestimonialsSection: React.FC = () => {
   const [testimonials, setTestimonials] = useState<Testimonial[]>(mockTestimonials);
-  const extendedTestimonials = [...testimonials, ...testimonials, ...testimonials];
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchTestimonials = async () => {
       try {
+        console.log('Fetching testimonials from Supabase...');
         const data = await api.testimonials.getAll();
+        console.log('Testimonials data received:', data);
+
         if (data && data.length > 0) {
           const formattedTestimonials: Testimonial[] = data.map(t => ({
             id: t.id,
@@ -142,15 +145,20 @@ const TestimonialsSection: React.FC = () => {
             rating: t.rating
           }));
           setTestimonials(formattedTestimonials);
+        } else {
+          console.log('No testimonials found in Supabase, using mock data.');
         }
       } catch (error) {
         console.error('Error fetching testimonials:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchTestimonials();
   }, []);
 
+  const extendedTestimonials = [...testimonials, ...testimonials, ...testimonials];
   const sectionRef = useRef<HTMLDivElement>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
   const [scrollX, setScrollX] = useState(0);

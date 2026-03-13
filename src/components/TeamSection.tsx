@@ -171,12 +171,15 @@ const TeamMemberCard: React.FC<{ member: TeamMember; index: number }> = ({ membe
 
 const TeamSection: React.FC = () => {
   const [team, setTeam] = useState<TeamMember[]>(mockTeam);
-  const extendedTeam = [...team, ...team, ...team];
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchTeam = async () => {
       try {
+        console.log('Fetching team members from Supabase...');
         const data = await api.team.getAll();
+        console.log('Team data received:', data);
+        
         if (data && data.length > 0) {
           const formattedTeam: TeamMember[] = data.map(m => ({
             name: m.name,
@@ -190,15 +193,20 @@ const TeamSection: React.FC = () => {
             }
           }));
           setTeam(formattedTeam);
+        } else {
+          console.log('No team members found in Supabase, using mock data.');
         }
       } catch (error) {
         console.error('Error fetching team members:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
     fetchTeam();
   }, []);
 
+  const extendedTeam = [...team, ...team, ...team];
   const sectionRef = useRef<HTMLDivElement>(null);
   const carouselRef = useRef<HTMLDivElement>(null);
   const [scrollX, setScrollX] = useState(0);

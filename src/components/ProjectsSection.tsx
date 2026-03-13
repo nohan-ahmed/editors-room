@@ -127,11 +127,15 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
 
 const ProjectsSection: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>(mockProjects);
+  const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
     const fetchProjects = async () => {
       try {
+        console.log('Fetching projects from Supabase...');
         const data = await api.projects.getAll();
+        console.log('Projects data received:', data);
+
         if (data && data.length > 0) {
           const formattedProjects: Project[] = data.map(p => ({
             id: p.display_id,
@@ -142,9 +146,13 @@ const ProjectsSection: React.FC = () => {
             description: p.description
           }));
           setProjects(formattedProjects);
+        } else {
+          console.log('No projects found in Supabase, using mock data.');
         }
       } catch (error) {
         console.error('Error fetching projects:', error);
+      } finally {
+        setIsLoading(false);
       }
     };
 
