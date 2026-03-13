@@ -125,8 +125,29 @@ const ProjectCard: React.FC<{ project: Project; index: number }> = ({ project, i
   );
 };
 
+const ProjectSkeleton: React.FC<{ index: number }> = ({ index }) => (
+  <div className={`relative grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-32 lg:mb-64 ${
+    index % 2 !== 0 ? 'lg:direction-rtl' : ''
+  }`}>
+    <div className={`lg:col-span-7 aspect-[16/10] bg-white/5 rounded-2xl animate-pulse ${
+      index % 2 !== 0 ? 'lg:order-2' : 'lg:order-1'
+    }`} />
+    <div className={`lg:col-span-5 flex flex-col gap-6 ${
+      index % 2 !== 0 ? 'lg:order-1 lg:text-right lg:items-end' : 'lg:order-2'
+    }`}>
+      <div className="h-4 w-32 bg-white/5 rounded animate-pulse" />
+      <div className="h-16 w-full bg-white/5 rounded animate-pulse" />
+      <div className="h-24 w-full bg-white/5 rounded animate-pulse" />
+      <div className="flex gap-8 mt-4">
+        <div className="h-10 w-20 bg-white/5 rounded animate-pulse" />
+        <div className="h-10 w-40 bg-white/5 rounded animate-pulse" />
+      </div>
+    </div>
+  </div>
+);
+
 const ProjectsSection: React.FC = () => {
-  const [projects, setProjects] = useState<Project[]>(mockProjects);
+  const [projects, setProjects] = useState<Project[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -148,9 +169,11 @@ const ProjectsSection: React.FC = () => {
           setProjects(formattedProjects);
         } else {
           console.log('No projects found in Supabase, using mock data.');
+          setProjects(mockProjects);
         }
       } catch (error) {
         console.error('Error fetching projects:', error);
+        setProjects(mockProjects);
       } finally {
         setIsLoading(false);
       }
@@ -185,9 +208,15 @@ const ProjectsSection: React.FC = () => {
 
         {/* Projects List */}
         <div className="relative">
-          {projects.map((project, index) => (
-            <ProjectCard key={project.id} project={project} index={index} />
-          ))}
+          {isLoading ? (
+            [...Array(3)].map((_, i) => (
+              <ProjectSkeleton key={i} index={i} />
+            ))
+          ) : (
+            projects.map((project, index) => (
+              <ProjectCard key={project.id} project={project} index={index} />
+            ))
+          )}
         </div>
 
         {/* View All CTA */}

@@ -169,8 +169,18 @@ const TeamMemberCard: React.FC<{ member: TeamMember; index: number }> = ({ membe
   );
 };
 
+const TeamSkeleton: React.FC = () => (
+  <div className="flex-shrink-0 w-[300px] md:w-[400px]">
+    <div className="aspect-[4/5] rounded-[32px] bg-white/5 animate-pulse border border-white/5" />
+    <div className="mt-6 space-y-4">
+      <div className="h-4 w-24 bg-white/5 rounded animate-pulse" />
+      <div className="h-8 w-48 bg-white/5 rounded animate-pulse" />
+    </div>
+  </div>
+);
+
 const TeamSection: React.FC = () => {
-  const [team, setTeam] = useState<TeamMember[]>(mockTeam);
+  const [team, setTeam] = useState<TeamMember[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -195,9 +205,11 @@ const TeamSection: React.FC = () => {
           setTeam(formattedTeam);
         } else {
           console.log('No team members found in Supabase, using mock data.');
+          setTeam(mockTeam);
         }
       } catch (error) {
         console.error('Error fetching team members:', error);
+        setTeam(mockTeam);
       } finally {
         setIsLoading(false);
       }
@@ -223,6 +235,7 @@ const TeamSection: React.FC = () => {
 
   // Handle Initial Scroll to Center Set
   useEffect(() => {
+    if (isLoading) return;
     const updateMaxScroll = () => {
       if (carouselRef.current) {
         const fullWidth = carouselRef.current.scrollWidth;
@@ -243,21 +256,21 @@ const TeamSection: React.FC = () => {
     updateMaxScroll();
     window.addEventListener('resize', updateMaxScroll);
     return () => window.removeEventListener('resize', updateMaxScroll);
-  }, [isInitialScrollSet]);
+  }, [isInitialScrollSet, isLoading]);
 
   // Autoplay Logic
   useEffect(() => {
-    if (isPaused) return;
+    if (isPaused || isLoading) return;
 
     const interval = setInterval(() => {
       handleScroll('right');
     }, 4000); // 4 seconds interval
 
     return () => clearInterval(interval);
-  }, [isPaused, scrollX, maxScroll]);
+  }, [isPaused, scrollX, maxScroll, isLoading]);
 
   const handleScroll = (direction: 'left' | 'right') => {
-    if (!carouselRef.current) return;
+    if (!carouselRef.current || isLoading) return;
     const cardWidth = window.innerWidth < 768 ? 300 : 400;
     const gap = 32;
     const scrollAmount = cardWidth + gap;
@@ -271,7 +284,7 @@ const TeamSection: React.FC = () => {
   };
 
   const onScroll = () => {
-    if (!carouselRef.current) return;
+    if (!carouselRef.current || isLoading) return;
     const currentScroll = carouselRef.current.scrollLeft;
     const fullWidth = carouselRef.current.scrollWidth;
     const singleSetWidth = fullWidth / 3;
@@ -358,11 +371,17 @@ const TeamSection: React.FC = () => {
             className="flex gap-8 overflow-x-auto no-scrollbar snap-x snap-mandatory pb-12 cursor-grab active:cursor-grabbing"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
-            {extendedTeam.map((member, index) => (
-              <div key={`${member.name}-${index}`} className="snap-start">
-                <TeamMemberCard member={member} index={index} />
-              </div>
-            ))}
+            {isLoading ? (
+              [...Array(4)].map((_, i) => (
+                <TeamSkeleton key={i} />
+              ))
+            ) : (
+              extendedTeam.map((member, index) => (
+                <div key={`${member.name}-${index}`} className="snap-start">
+                  <TeamMemberCard member={member} index={index} />
+                </div>
+              ))
+            )}
           </div>
           
           {/* Progress Bar */}

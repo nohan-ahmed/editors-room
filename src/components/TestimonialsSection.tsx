@@ -123,8 +123,26 @@ const TestimonialCard: React.FC<{ testimonial: Testimonial; index: number }> = (
   );
 };
 
+const TestimonialSkeleton: React.FC = () => (
+  <div className="flex-shrink-0 w-[320px] md:w-[600px] p-10 md:p-16 rounded-[48px] bg-white/[0.02] border border-white/10 animate-pulse">
+    <div className="flex gap-1 mb-10">
+      {[...Array(5)].map((_, i) => (
+        <div key={i} className="w-4 h-4 bg-white/5 rounded-full" />
+      ))}
+    </div>
+    <div className="h-24 w-full bg-white/5 rounded mb-12" />
+    <div className="flex items-center gap-6">
+      <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/5" />
+      <div className="space-y-3">
+        <div className="h-6 w-32 bg-white/5 rounded" />
+        <div className="h-4 w-48 bg-white/5 rounded" />
+      </div>
+    </div>
+  </div>
+);
+
 const TestimonialsSection: React.FC = () => {
-  const [testimonials, setTestimonials] = useState<Testimonial[]>(mockTestimonials);
+  const [testimonials, setTestimonials] = useState<Testimonial[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -147,9 +165,11 @@ const TestimonialsSection: React.FC = () => {
           setTestimonials(formattedTestimonials);
         } else {
           console.log('No testimonials found in Supabase, using mock data.');
+          setTestimonials(mockTestimonials);
         }
       } catch (error) {
         console.error('Error fetching testimonials:', error);
+        setTestimonials(mockTestimonials);
       } finally {
         setIsLoading(false);
       }
@@ -167,6 +187,7 @@ const TestimonialsSection: React.FC = () => {
   const [isInitialScrollSet, setIsInitialScrollSet] = useState(false);
 
   useEffect(() => {
+    if (isLoading) return;
     const updateMaxScroll = () => {
       if (carouselRef.current) {
         const fullWidth = carouselRef.current.scrollWidth;
@@ -186,20 +207,20 @@ const TestimonialsSection: React.FC = () => {
     updateMaxScroll();
     window.addEventListener('resize', updateMaxScroll);
     return () => window.removeEventListener('resize', updateMaxScroll);
-  }, [isInitialScrollSet]);
+  }, [isInitialScrollSet, isLoading]);
 
   useEffect(() => {
-    if (isPaused) return;
+    if (isPaused || isLoading) return;
 
     const interval = setInterval(() => {
       handleScroll('right');
     }, 5000); // 5 seconds for testimonials
 
     return () => clearInterval(interval);
-  }, [isPaused, scrollX, maxScroll]);
+  }, [isPaused, scrollX, maxScroll, isLoading]);
 
   const handleScroll = (direction: 'left' | 'right') => {
-    if (!carouselRef.current) return;
+    if (!carouselRef.current || isLoading) return;
     const cardWidth = window.innerWidth < 768 ? 320 : 600;
     const gap = 32;
     const scrollAmount = cardWidth + gap;
@@ -213,7 +234,7 @@ const TestimonialsSection: React.FC = () => {
   };
 
   const onScroll = () => {
-    if (!carouselRef.current) return;
+    if (!carouselRef.current || isLoading) return;
     const currentScroll = carouselRef.current.scrollLeft;
     const fullWidth = carouselRef.current.scrollWidth;
     const singleSetWidth = fullWidth / 3;
@@ -283,9 +304,15 @@ const TestimonialsSection: React.FC = () => {
             className="flex gap-8 overflow-x-auto no-scrollbar snap-x snap-mandatory pb-12 cursor-grab active:cursor-grabbing"
             style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
           >
-            {extendedTestimonials.map((testimonial, index) => (
-              <TestimonialCard key={`${testimonial.id}-${index}`} testimonial={testimonial} index={index} />
-            ))}
+            {isLoading ? (
+              [...Array(3)].map((_, i) => (
+                <TestimonialSkeleton key={i} />
+              ))
+            ) : (
+              extendedTestimonials.map((testimonial, index) => (
+                <TestimonialCard key={`${testimonial.id}-${index}`} testimonial={testimonial} index={index} />
+              ))
+            )}
           </div>
           
           {/* Progress Bar */}
