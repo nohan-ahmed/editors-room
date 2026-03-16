@@ -279,13 +279,13 @@ const TestimonialsSection: React.FC = () => {
           <div className="flex gap-4">
             <button 
               onClick={() => { handleScroll('left'); handleInteractionStart(); setTimeout(handleInteractionEnd, 5000); }}
-              className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all"
+              className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all cursor-pointer"
             >
               <ArrowLeft size={24} />
             </button>
             <button 
               onClick={() => { handleScroll('right'); handleInteractionStart(); setTimeout(handleInteractionEnd, 5000); }}
-              className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center text-white hover:bg-brand hover:border-brand transition-all"
+              className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center text-white hover:bg-brand hover:border-brand transition-all cursor-pointer"
             >
               <ArrowRight size={24} />
             </button>
@@ -344,7 +344,7 @@ const TestimonialsSection: React.FC = () => {
 
             <div className="flex flex-wrap justify-center gap-12 md:gap-16 opacity-20 grayscale hover:opacity-100 hover:grayscale-0 transition-all duration-1000">
               {['Nexora', 'Zupitar', 'Fanoos', 'Veloce'].map((brand) => (
-                <span key={brand} className="text-2xl md:text-3xl font-display font-bold text-white tracking-tighter">
+                <span key={brand} className="text-2xl md:text-3xl font-display font-bold text-white tracking-tighter cursor-pointer hover:text-brand transition-colors">
                   {brand}
                 </span>
               ))}

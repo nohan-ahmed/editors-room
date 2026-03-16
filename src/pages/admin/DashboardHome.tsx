@@ -45,7 +45,8 @@ const StatCard = ({ title, value, change, icon: Icon, trend, isLoading }: any) =
   <motion.div 
     initial={{ opacity: 0, y: 20 }}
     animate={{ opacity: 1, y: 0 }}
-    className="p-6 rounded-3xl bg-white/[0.02] border border-white/5 hover:border-brand/20 transition-all group"
+    whileHover={{ y: -5 }}
+    className="p-6 rounded-3xl bg-white/[0.02] border border-white/5 hover:border-brand/20 transition-all group cursor-pointer"
   >
     <div className="flex justify-between items-start mb-4">
       <div className="p-3 rounded-2xl bg-brand/10 text-brand group-hover:bg-brand group-hover:text-white transition-all">
@@ -204,7 +205,7 @@ const DashboardHome: React.FC = () => {
         <div className="p-5 sm:p-8 rounded-[32px] sm:rounded-[40px] bg-white/[0.02] border border-white/5">
           <div className="flex justify-between items-center mb-6 sm:mb-8">
             <h3 className="text-lg sm:text-xl font-bold">Recent Projects</h3>
-            <button className="text-brand text-xs sm:text-sm font-bold hover:underline">View All</button>
+            <button className="text-brand text-xs sm:text-sm font-bold hover:underline cursor-pointer">View All</button>
           </div>
           <div className="space-y-4 sm:space-y-6">
             {isLoading ? (
@@ -238,7 +239,7 @@ const DashboardHome: React.FC = () => {
         <div className="p-5 sm:p-8 rounded-[32px] sm:rounded-[40px] bg-white/[0.02] border border-white/5">
           <div className="flex justify-between items-center mb-6 sm:mb-8">
             <h3 className="text-lg sm:text-xl font-bold">New Testimonials</h3>
-            <button className="text-brand text-xs sm:text-sm font-bold hover:underline">View All</button>
+            <button className="text-brand text-xs sm:text-sm font-bold hover:underline cursor-pointer">View All</button>
           </div>
           <div className="space-y-4 sm:space-y-6">
             {isLoading ? (

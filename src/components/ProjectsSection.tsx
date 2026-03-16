@@ -222,7 +222,7 @@ const ProjectsSection: React.FC = () => {
         {/* View All CTA */}
         <div className="flex justify-center mt-20">
           <motion.button
-            whileHover={{ scale: 1.05 }}
+            whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.95 }}
             className="px-12 py-6 rounded-2xl bg-white text-black font-bold text-xl hover:bg-brand hover:text-white transition-all shadow-2xl brand-glow"
           >

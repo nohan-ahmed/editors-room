@@ -156,7 +156,7 @@ const AboutSection: React.FC = () => {
               {/* Expertise List */}
               <div className="flex flex-wrap gap-x-10 gap-y-6 mb-16">
                 {expertise.map((item) => (
-                  <div key={item.title} className="flex items-center gap-3 group">
+                  <div key={item.title} className="flex items-center gap-3 group cursor-pointer">
                     <div className="w-10 h-10 rounded-full border border-white/10 flex items-center justify-center group-hover:border-brand/50 transition-colors bg-white/5">
                       <item.icon className="text-zinc-500 group-hover:text-brand transition-colors" size={18} />
                     </div>
@@ -181,8 +181,8 @@ const AboutSection: React.FC = () => {
 
               {/* CTA */}
               <motion.button
-                whileHover={{ x: 5 }}
-                className="group flex items-center gap-6"
+                whileHover={{ x: 5, scale: 1.02 }}
+                className="group flex items-center gap-6 cursor-pointer"
               >
                 <div className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center group-hover:bg-white group-hover:border-white transition-all duration-500 bg-white/5">
                   <ArrowUpRight size={24} className="text-white group-hover:text-black transition-colors" />

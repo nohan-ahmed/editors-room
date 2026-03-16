@@ -143,7 +143,7 @@ const Navbar = () => {
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? 'py-4' : 'py-8'}`}>
       <div className="max-w-[1400px] mx-auto px-6">
         <div className={`flex justify-between items-center px-6 py-3 rounded-2xl transition-all duration-500 ${isScrolled ? 'glass-nav shadow-2xl' : 'bg-transparent'}`}>
-          <a href="#" className="flex items-center gap-3 group">
+          <a href="#" className="flex items-center gap-3 group cursor-pointer">
             <div className="w-10 h-10 bg-brand rounded-xl flex items-center justify-center text-white font-bold text-2xl group-hover:rotate-[360deg] transition-transform duration-700 shadow-[0_0_20px_rgba(255,77,0,0.5)]">
               <Zap size={20} fill="currentColor" />
             </div>
@@ -153,7 +153,7 @@ const Navbar = () => {
           {/* Desktop Nav */}
           <div className="hidden lg:flex items-center gap-8">
             {navLinks.map((link) => (
-              <a key={link.name} href={link.href} className="text-sm font-medium text-zinc-400 hover:text-white transition-all hover:tracking-widest">
+              <a key={link.name} href={link.href} className="text-sm font-medium text-zinc-400 hover:text-white transition-all hover:tracking-widest cursor-pointer">
                 {link.name}
               </a>
             ))}
@@ -167,7 +167,7 @@ const Navbar = () => {
           </div>
 
           {/* Mobile Toggle */}
-          <button className="lg:hidden p-2 text-white" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+          <button className="lg:hidden p-2 text-white cursor-pointer hover:text-brand transition-colors" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
@@ -188,9 +188,10 @@ const Navbar = () => {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: idx * 0.1 }}
+                whileHover={{ scale: 1.1, color: "#ff4d00" }}
                 key={link.name} 
                 href={link.href} 
-                className="text-4xl font-display font-bold text-white"
+                className="text-4xl font-display font-bold text-white cursor-pointer"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {link.name}
@@ -352,8 +353,8 @@ const FeaturesSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1, duration: 0.8 }}
-              whileHover={{ y: -10 }}
-              className="p-10 rounded-[40px] bg-white/5 border border-white/10 hover:border-brand/50 transition-all group relative overflow-hidden"
+              whileHover={{ y: -10, scale: 1.02 }}
+              className="p-10 rounded-[40px] bg-white/5 border border-white/10 hover:border-brand/50 transition-all group relative overflow-hidden cursor-pointer"
             >
               <div className="absolute inset-0 bg-gradient-to-br from-brand/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
               <div className="w-16 h-16 rounded-2xl bg-brand/10 flex items-center justify-center text-brand mb-8 group-hover:bg-brand group-hover:text-white transition-all">
@@ -392,11 +393,11 @@ const FAQSection = () => {
           {faqs.map((faq, idx) => (
             <div key={idx} className="rounded-3xl bg-white/5 border border-white/10 overflow-hidden">
               <button 
-                className="w-full p-8 flex justify-between items-center text-left hover:bg-white/10 transition-colors"
+                className="w-full p-8 flex justify-between items-center text-left hover:bg-white/10 transition-colors cursor-pointer group"
                 onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
               >
-                <span className="text-xl md:text-2xl font-display font-bold">{faq.q}</span>
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${openIndex === idx ? 'bg-brand text-white rotate-180' : 'bg-white/10 text-white'}`}>
+                <span className="text-xl md:text-2xl font-display font-bold group-hover:text-brand transition-colors">{faq.q}</span>
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all ${openIndex === idx ? 'bg-brand text-white rotate-180' : 'bg-white/10 text-white group-hover:bg-brand/20'}`}>
                   <ChevronDown size={24} />
                 </div>
               </button>
@@ -464,17 +465,17 @@ const ContactSection = () => {
               Have a project in mind? We'd love to hear from you. Fill out the form and our team will get back to you within 24 hours.
             </p>
             <div className="space-y-6">
-              <div className="flex items-center gap-4 text-lg font-medium">
-                <div className="w-12 h-12 rounded-2xl bg-brand/10 flex items-center justify-center text-brand">
+              <div className="flex items-center gap-4 text-lg font-medium cursor-pointer group">
+                <div className="w-12 h-12 rounded-2xl bg-brand/10 flex items-center justify-center text-brand group-hover:bg-brand group-hover:text-white transition-all">
                   <Mail size={24} />
                 </div>
-                hello@pumpkin.studio
+                <span className="group-hover:text-brand transition-colors">hello@pumpkin.studio</span>
               </div>
-              <div className="flex items-center gap-4 text-lg font-medium">
-                <div className="w-12 h-12 rounded-2xl bg-brand/10 flex items-center justify-center text-brand">
+              <div className="flex items-center gap-4 text-lg font-medium cursor-pointer group">
+                <div className="w-12 h-12 rounded-2xl bg-brand/10 flex items-center justify-center text-brand group-hover:bg-brand group-hover:text-white transition-all">
                   <Globe size={24} />
                 </div>
-                San Francisco, CA
+                <span className="group-hover:text-brand transition-colors">San Francisco, CA</span>
               </div>
             </div>
           </div>
@@ -510,7 +511,7 @@ const ContactSection = () => {
             <motion.button 
               whileHover={{ scale: 1.02, boxShadow: "0 0 30px rgba(255, 77, 0, 0.5)" }}
               whileTap={{ scale: 0.98 }}
-              className="w-full bg-brand text-white py-5 rounded-2xl font-bold text-lg hover:bg-brand-dark transition-all brand-glow"
+              className="w-full bg-brand text-white py-5 rounded-2xl font-bold text-lg hover:bg-brand-dark transition-all brand-glow cursor-pointer"
             >
               Send Message
             </motion.button>
@@ -527,11 +528,11 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="flex flex-col md:flex-row justify-between items-start gap-16 mb-20">
           <div className="max-w-xl">
-            <a href="#" className="flex items-center gap-3 mb-8">
-              <div className="w-12 h-12 bg-brand rounded-xl flex items-center justify-center text-white font-bold text-2xl brand-glow">
+            <a href="#" className="flex items-center gap-3 mb-8 cursor-pointer group">
+              <div className="w-12 h-12 bg-brand rounded-xl flex items-center justify-center text-white font-bold text-2xl brand-glow group-hover:rotate-[360deg] transition-transform duration-700">
                 <Zap size={24} fill="currentColor" />
               </div>
-              <span className="font-display font-bold text-3xl tracking-tighter">Pumpkin</span>
+              <span className="font-display font-bold text-3xl tracking-tighter group-hover:text-brand transition-colors">Pumpkin</span>
             </a>
             <h2 className="text-4xl md:text-6xl font-display font-bold tracking-tighter mb-8 leading-[0.9]">Ready to build <br /> the future?</h2>
             <div className="flex gap-4">
@@ -551,19 +552,19 @@ const Footer = () => {
             <div>
               <h4 className="text-zinc-500 font-mono text-xs uppercase tracking-widest mb-8">Navigation</h4>
               <ul className="space-y-4 text-xl font-bold">
-                <li><a href="#" className="hover:text-brand transition-colors">Home</a></li>
-                <li><a href="#features" className="hover:text-brand transition-colors">Features</a></li>
-                <li><a href="#team" className="hover:text-brand transition-colors">Team</a></li>
-                <li><a href="#contact" className="hover:text-brand transition-colors">Contact</a></li>
+                <li><a href="#" className="hover:text-brand transition-colors cursor-pointer">Home</a></li>
+                <li><a href="#features" className="hover:text-brand transition-colors cursor-pointer">Features</a></li>
+                <li><a href="#team" className="hover:text-brand transition-colors cursor-pointer">Team</a></li>
+                <li><a href="#contact" className="hover:text-brand transition-colors cursor-pointer">Contact</a></li>
               </ul>
             </div>
             <div>
               <h4 className="text-zinc-500 font-mono text-xs uppercase tracking-widest mb-8">Company</h4>
               <ul className="space-y-4 text-xl font-bold">
-                <li><a href="#" className="hover:text-brand transition-colors">Privacy</a></li>
-                <li><a href="#" className="hover:text-brand transition-colors">Terms</a></li>
-                <li><a href="#" className="hover:text-brand transition-colors">Careers</a></li>
-                <li><a href="#" className="hover:text-brand transition-colors">Cookies</a></li>
+                <li><a href="#" className="hover:text-brand transition-colors cursor-pointer">Privacy</a></li>
+                <li><a href="#" className="hover:text-brand transition-colors cursor-pointer">Terms</a></li>
+                <li><a href="#" className="hover:text-brand transition-colors cursor-pointer">Careers</a></li>
+                <li><a href="#" className="hover:text-brand transition-colors cursor-pointer">Cookies</a></li>
               </ul>
             </div>
           </div>
@@ -572,9 +573,9 @@ const Footer = () => {
         <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6 text-zinc-600 font-mono text-xs tracking-widest uppercase">
           <p>© 2025 Pumpkin Studio. All rights reserved.</p>
           <div className="flex gap-8">
-            <a href="#" className="hover:text-white transition-colors">Instagram</a>
-            <a href="#" className="hover:text-white transition-colors">Twitter</a>
-            <a href="#" className="hover:text-white transition-colors">LinkedIn</a>
+            <a href="#" className="hover:text-white transition-colors cursor-pointer hover:underline">Instagram</a>
+            <a href="#" className="hover:text-white transition-colors cursor-pointer hover:underline">Twitter</a>
+            <a href="#" className="hover:text-white transition-colors cursor-pointer hover:underline">LinkedIn</a>
           </div>
         </div>
       </div>

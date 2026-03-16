@@ -345,13 +345,13 @@ const TeamSection: React.FC = () => {
             <div className="flex gap-4">
               <button 
                 onClick={() => { handleScroll('left'); handleInteractionStart(); setTimeout(handleInteractionEnd, 5000); }}
-                className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all"
+                className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center text-white hover:bg-white hover:text-black transition-all cursor-pointer"
               >
                 <ArrowLeft size={24} />
               </button>
               <button 
                 onClick={() => { handleScroll('right'); handleInteractionStart(); setTimeout(handleInteractionEnd, 5000); }}
-                className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center text-white hover:bg-brand hover:border-brand transition-all"
+                className="w-16 h-16 rounded-full border border-white/10 flex items-center justify-center text-white hover:bg-brand hover:border-brand transition-all cursor-pointer"
               >
                 <ArrowRight size={24} />
               </button>
@@ -413,7 +413,7 @@ const TeamSection: React.FC = () => {
             <motion.button
               whileHover={{ scale: 1.05, boxShadow: "0 0 40px rgba(255, 77, 0, 0.4)" }}
               whileTap={{ scale: 0.95 }}
-              className="px-12 py-6 rounded-2xl bg-white text-black font-bold text-xl hover:bg-brand hover:text-white transition-all shadow-2xl brand-glow"
+              className="px-12 py-6 rounded-2xl bg-white text-black font-bold text-xl hover:bg-brand hover:text-white transition-all shadow-2xl brand-glow cursor-pointer"
             >
               View Open Positions
             </motion.button>

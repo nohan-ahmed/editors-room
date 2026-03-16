@@ -43,8 +43,9 @@ const BlogSection: React.FC = () => {
             </h2>
           </div>
           <motion.button
-            whileHover={{ x: 10 }}
-            className="flex items-center gap-4 text-white hover:text-brand transition-colors group"
+            whileHover={{ x: 10, scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="flex items-center gap-4 text-white hover:text-brand transition-colors group cursor-pointer"
           >
             <span className="text-sm font-bold uppercase tracking-widest">View All Articles</span>
             <div className="w-12 h-12 rounded-full border border-white/10 flex items-center justify-center group-hover:border-brand group-hover:bg-brand transition-all">
@@ -66,7 +67,8 @@ const BlogSection: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="group relative flex flex-col h-full"
+                whileHover={{ y: -5 }}
+                className="group relative flex flex-col h-full cursor-pointer"
               >
                 <div className="relative aspect-[16/10] rounded-[32px] overflow-hidden mb-8 border border-white/5">
                   <img 
@@ -99,7 +101,7 @@ const BlogSection: React.FC = () => {
                   </p>
 
                   <div className="mt-auto pt-6 border-t border-white/5 flex items-center justify-between">
-                    <button className="text-white font-bold text-sm uppercase tracking-widest flex items-center gap-2 group/btn">
+                    <button className="text-white font-bold text-sm uppercase tracking-widest flex items-center gap-2 group/btn cursor-pointer hover:text-brand transition-colors">
                       Read More
                       <ArrowRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
                     </button>

@@ -96,7 +96,7 @@ const AdminLogin: React.FC = () => {
             <button 
               type="submit"
               disabled={isLoading}
-              className="w-full py-4 bg-brand text-white rounded-2xl font-bold hover:bg-brand-dark transition-all shadow-lg shadow-brand/20 flex items-center justify-center gap-2 group disabled:opacity-50"
+              className="w-full py-4 bg-brand text-white rounded-2xl font-bold hover:bg-brand-dark transition-all shadow-lg shadow-brand/20 flex items-center justify-center gap-2 group disabled:opacity-50 cursor-pointer"
             >
               {isLoading ? (
                 <Loader2 className="animate-spin" size={20} />
@@ -119,7 +119,7 @@ const AdminLogin: React.FC = () => {
         <div className="mt-8 text-center">
           <button 
             onClick={() => navigate('/')}
-            className="text-zinc-500 text-sm hover:text-white transition-colors"
+            className="text-zinc-500 text-sm hover:text-white transition-colors cursor-pointer"
           >
             ← Back to Website
           </button>

@@ -67,7 +67,7 @@ const AdminLayout: React.FC = () => {
         isSidebarOpen ? "translate-x-0" : "-translate-x-full"
       )}>
         <div className="p-8 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-3 group">
+          <Link to="/" className="flex items-center gap-3 group cursor-pointer">
             <div className="w-10 h-10 bg-brand rounded-xl flex items-center justify-center text-white font-bold text-2xl shadow-[0_0_20px_rgba(255,77,0,0.3)]">
               <Zap size={20} fill="currentColor" />
             </div>
@@ -75,7 +75,7 @@ const AdminLayout: React.FC = () => {
           </Link>
           <button 
             onClick={() => setIsSidebarOpen(false)}
-            className="lg:hidden p-2 text-zinc-500 hover:text-white"
+            className="lg:hidden p-2 text-zinc-500 hover:text-white cursor-pointer"
           >
             <X size={24} />
           </button>
@@ -92,7 +92,7 @@ const AdminLayout: React.FC = () => {
                 key={item.name}
                 to={item.path}
                 className={cn(
-                  "flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-300 group",
+                  "flex items-center gap-4 px-4 py-3 rounded-xl transition-all duration-300 group cursor-pointer",
                   isActive 
                     ? "bg-brand/10 text-brand border border-brand/20" 
                     : "text-zinc-400 hover:text-white hover:bg-white/5"
@@ -111,7 +111,7 @@ const AdminLayout: React.FC = () => {
         <div className="p-6 border-t border-white/5">
           <button 
             onClick={handleLogout}
-            className="flex items-center gap-4 px-4 py-3 rounded-xl text-zinc-400 hover:text-red-400 hover:bg-red-400/5 transition-all w-full group"
+            className="flex items-center gap-4 px-4 py-3 rounded-xl text-zinc-400 hover:text-red-400 hover:bg-red-400/5 transition-all w-full group cursor-pointer"
           >
             <LogOut size={20} className="group-hover:-translate-x-1 transition-transform" />
             <span className="font-medium">Logout</span>
@@ -129,7 +129,7 @@ const AdminLayout: React.FC = () => {
           <div className="flex items-center gap-4 flex-1">
             <button 
               onClick={() => setIsSidebarOpen(true)}
-              className="lg:hidden p-2.5 rounded-xl bg-white/5 border border-white/10 text-zinc-400 hover:text-white transition-all"
+              className="lg:hidden p-2.5 rounded-xl bg-white/5 border border-white/10 text-zinc-400 hover:text-white transition-all cursor-pointer"
             >
               <Menu size={20} />
             </button>
@@ -145,7 +145,7 @@ const AdminLayout: React.FC = () => {
           </div>
 
           <div className="flex items-center gap-3 sm:gap-6">
-            <button className="relative p-2.5 rounded-xl bg-white/5 border border-white/10 text-zinc-400 hover:text-white transition-all">
+            <button className="relative p-2.5 rounded-xl bg-white/5 border border-white/10 text-zinc-400 hover:text-white transition-all cursor-pointer">
               <Bell size={20} />
               <span className="absolute top-2 right-2 w-2 h-2 bg-brand rounded-full border-2 border-[#050505]" />
             </button>
