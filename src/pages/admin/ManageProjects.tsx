@@ -275,80 +275,80 @@ const ManageProjects: React.FC = () => {
                 </button>
               </div>
 
-              <form onSubmit={handleSubmit} className="p-8 space-y-6 max-h-[70vh] overflow-y-auto custom-scrollbar">
-                <div className="grid grid-cols-2 gap-6">
+              <form onSubmit={handleSubmit} className="p-5 sm:p-8 space-y-6 max-h-[80vh] overflow-y-auto custom-scrollbar">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                   <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-widest text-zinc-500">Project Title</label>
+                    <label className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-zinc-500">Project Title</label>
                     <input 
                       required
                       type="text" 
                       value={formData.title}
                       onChange={(e) => setFormData({...formData, title: e.target.value})}
                       placeholder="e.g. Aether Platform"
-                      className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 px-4 focus:border-brand/50 outline-none transition-all"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl sm:rounded-2xl py-2.5 sm:py-3 px-4 focus:border-brand/50 outline-none transition-all text-sm sm:text-base"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-widest text-zinc-500">Category</label>
+                    <label className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-zinc-500">Category</label>
                     <input 
                       required
                       type="text" 
                       value={formData.category}
                       onChange={(e) => setFormData({...formData, category: e.target.value})}
                       placeholder="e.g. Digital Ecosystem"
-                      className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 px-4 focus:border-brand/50 outline-none transition-all"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl sm:rounded-2xl py-2.5 sm:py-3 px-4 focus:border-brand/50 outline-none transition-all text-sm sm:text-base"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs font-bold uppercase tracking-widest text-zinc-500">Description</label>
+                  <label className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-zinc-500">Description</label>
                   <textarea 
                     required
                     rows={3}
                     value={formData.description}
                     onChange={(e) => setFormData({...formData, description: e.target.value})}
                     placeholder="Briefly describe the project..."
-                    className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 px-4 focus:border-brand/50 outline-none transition-all resize-none"
+                    className="w-full bg-white/5 border border-white/10 rounded-xl sm:rounded-2xl py-2.5 sm:py-3 px-4 focus:border-brand/50 outline-none transition-all resize-none text-sm sm:text-base"
                   />
                 </div>
 
-                <div className="grid grid-cols-3 gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
                   <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-widest text-zinc-500">Display ID</label>
+                    <label className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-zinc-500">Display ID</label>
                     <input 
                       required
                       type="text" 
                       value={formData.display_id}
                       onChange={(e) => setFormData({...formData, display_id: e.target.value})}
                       placeholder="01"
-                      className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 px-4 focus:border-brand/50 outline-none transition-all"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl sm:rounded-2xl py-2.5 sm:py-3 px-4 focus:border-brand/50 outline-none transition-all text-sm sm:text-base"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-widest text-zinc-500">Year</label>
+                    <label className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-zinc-500">Year</label>
                     <input 
                       required
                       type="text" 
                       value={formData.year}
                       onChange={(e) => setFormData({...formData, year: e.target.value})}
                       placeholder="2024"
-                      className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 px-4 focus:border-brand/50 outline-none transition-all"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl sm:rounded-2xl py-2.5 sm:py-3 px-4 focus:border-brand/50 outline-none transition-all text-sm sm:text-base"
                     />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-widest text-zinc-500">Sort Order</label>
+                    <label className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-zinc-500">Sort Order</label>
                     <input 
                       type="number" 
                       value={formData.sort_order}
                       onChange={(e) => setFormData({...formData, sort_order: parseInt(e.target.value)})}
-                      className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 px-4 focus:border-brand/50 outline-none transition-all"
+                      className="w-full bg-white/5 border border-white/10 rounded-xl sm:rounded-2xl py-2.5 sm:py-3 px-4 focus:border-brand/50 outline-none transition-all text-sm sm:text-base"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <label className="text-xs font-bold uppercase tracking-widest text-zinc-500">Project Image</label>
+                  <label className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-zinc-500">Project Image</label>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-4">
                       <div className="relative">
@@ -358,7 +358,7 @@ const ManageProjects: React.FC = () => {
                           value={formData.image_url}
                           onChange={(e) => setFormData({...formData, image_url: e.target.value})}
                           placeholder="Image URL (https://...)"
-                          className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 pl-12 pr-4 focus:border-brand/50 outline-none transition-all text-sm"
+                          className="w-full bg-white/5 border border-white/10 rounded-xl sm:rounded-2xl py-2.5 sm:py-3 pl-12 pr-4 focus:border-brand/50 outline-none transition-all text-sm"
                         />
                       </div>
                       
@@ -373,7 +373,7 @@ const ManageProjects: React.FC = () => {
                         <label 
                           htmlFor="image-upload"
                           className={cn(
-                            "flex items-center justify-center gap-2 w-full py-3 rounded-2xl border-2 border-dashed border-white/10 hover:border-brand/50 hover:bg-brand/5 transition-all cursor-pointer font-bold text-sm",
+                            "flex items-center justify-center gap-2 w-full py-2.5 sm:py-3 rounded-xl sm:rounded-2xl border-2 border-dashed border-white/10 hover:border-brand/50 hover:bg-brand/5 transition-all cursor-pointer font-bold text-sm",
                             isUploading && "opacity-50 cursor-wait"
                           )}
                         >
@@ -387,7 +387,7 @@ const ManageProjects: React.FC = () => {
                       </div>
                     </div>
 
-                    <div className="aspect-video rounded-2xl bg-white/5 border border-white/10 overflow-hidden relative group">
+                    <div className="aspect-video rounded-xl sm:rounded-2xl bg-white/5 border border-white/10 overflow-hidden relative group">
                       {formData.image_url ? (
                         <>
                           <img src={formData.image_url} alt="Preview" className="w-full h-full object-cover" />
@@ -402,14 +402,14 @@ const ManageProjects: React.FC = () => {
                       ) : (
                         <div className="absolute inset-0 flex flex-col items-center justify-center text-zinc-600">
                           <ImageIcon size={32} className="mb-2" />
-                          <span className="text-xs font-bold uppercase tracking-widest">No Image</span>
+                          <span className="text-[10px] font-bold uppercase tracking-widest">No Image</span>
                         </div>
                       )}
                     </div>
                   </div>
                 </div>
 
-                <div className="flex items-center gap-3 p-4 rounded-2xl bg-white/5 border border-white/10">
+                <div className="flex items-center gap-3 p-4 rounded-xl sm:rounded-2xl bg-white/5 border border-white/10">
                   <input 
                     type="checkbox" 
                     id="is_featured"
@@ -417,20 +417,20 @@ const ManageProjects: React.FC = () => {
                     onChange={(e) => setFormData({...formData, is_featured: e.target.checked})}
                     className="w-5 h-5 rounded bg-zinc-800 border-white/10 text-brand focus:ring-brand"
                   />
-                  <label htmlFor="is_featured" className="text-sm font-medium cursor-pointer">Feature this project on the homepage</label>
+                  <label htmlFor="is_featured" className="text-xs sm:text-sm font-medium cursor-pointer">Feature this project on the homepage</label>
                 </div>
 
-                <div className="pt-6 border-t border-white/5 flex gap-4">
+                <div className="pt-6 border-t border-white/5 flex flex-col sm:flex-row gap-3 sm:gap-4">
                   <button 
                     type="button"
                     onClick={() => setIsModalOpen(false)}
-                    className="flex-1 py-4 rounded-2xl bg-white/5 text-white font-bold hover:bg-white/10 transition-all"
+                    className="flex-1 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-white/5 text-white font-bold hover:bg-white/10 transition-all text-sm sm:text-base order-2 sm:order-1"
                   >
                     Cancel
                   </button>
                   <button 
                     type="submit"
-                    className="flex-1 py-4 rounded-2xl bg-brand text-white font-bold hover:bg-brand-dark transition-all shadow-lg shadow-brand/20"
+                    className="flex-1 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-brand text-white font-bold hover:bg-brand-dark transition-all shadow-lg shadow-brand/20 text-sm sm:text-base order-1 sm:order-2"
                   >
                     {editingProject ? 'Update Project' : 'Create Project'}
                   </button>

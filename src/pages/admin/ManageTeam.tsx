@@ -106,11 +106,11 @@ const ManageTeam: React.FC = () => {
   );
 
   return (
-    <div className="space-y-8">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+    <div className="space-y-6 sm:space-y-8">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-4xl font-display font-bold tracking-tight mb-2">Team Members</h1>
-          <p className="text-zinc-500">Manage the talented individuals behind your agency.</p>
+          <h1 className="text-2xl sm:text-4xl font-display font-bold tracking-tight mb-1 sm:mb-2">Team Members</h1>
+          <p className="text-sm sm:text-base text-zinc-500">Manage the talented individuals behind your agency.</p>
         </div>
         <button 
           onClick={() => {
@@ -126,7 +126,7 @@ const ManageTeam: React.FC = () => {
             });
             setIsModalOpen(true);
           }}
-          className="flex items-center gap-2 px-6 py-3 bg-brand text-white rounded-2xl font-bold hover:bg-brand-dark transition-all shadow-lg shadow-brand/20"
+          className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-brand text-white rounded-xl sm:rounded-2xl font-bold hover:bg-brand-dark transition-all shadow-lg shadow-brand/20 text-sm sm:text-base"
         >
           <Plus size={20} />
           Add Member
@@ -140,11 +140,11 @@ const ManageTeam: React.FC = () => {
           placeholder="Search team members..." 
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 pl-12 pr-4 focus:border-brand/50 transition-all outline-none"
+          className="w-full bg-white/5 border border-white/10 rounded-xl sm:rounded-2xl py-2.5 sm:py-3 pl-12 pr-4 focus:border-brand/50 transition-all outline-none text-sm sm:text-base"
         />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
         {isLoading ? (
           <div className="col-span-full py-20 flex flex-col items-center gap-4">
             <Loader2 className="animate-spin text-brand" size={40} />
@@ -157,33 +157,33 @@ const ManageTeam: React.FC = () => {
             <motion.div 
               layout
               key={member.id}
-              className="p-6 rounded-[32px] bg-white/[0.02] border border-white/5 hover:border-brand/20 transition-all group relative overflow-hidden"
+              className="p-5 sm:p-6 rounded-[24px] sm:rounded-[32px] bg-white/[0.02] border border-white/5 hover:border-brand/20 transition-all group relative overflow-hidden"
             >
-              <div className="flex items-start gap-4 mb-6">
-                <div className="w-20 h-20 rounded-2xl bg-zinc-800 overflow-hidden border border-white/5">
+              <div className="flex items-start gap-4 mb-4 sm:mb-6">
+                <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-xl sm:rounded-2xl bg-zinc-800 overflow-hidden border border-white/5 shrink-0">
                   <img src={member.image_url || `https://i.pravatar.cc/150?u=${member.id}`} alt="" className="w-full h-full object-cover" />
                 </div>
-                <div className="flex-1">
-                  <h3 className="text-xl font-bold">{member.name}</h3>
-                  <p className="text-brand text-sm font-medium">{member.role}</p>
-                  <div className="flex gap-2 mt-3">
+                <div className="flex-1 min-w-0">
+                  <h3 className="text-lg sm:text-xl font-bold truncate">{member.name}</h3>
+                  <p className="text-brand text-xs sm:text-sm font-medium truncate">{member.role}</p>
+                  <div className="flex gap-2 mt-2 sm:mt-3">
                     {member.linkedin_url && <Linkedin size={14} className="text-zinc-500" />}
                     {member.twitter_url && <Twitter size={14} className="text-zinc-500" />}
                   </div>
                 </div>
               </div>
-              <p className="text-sm text-zinc-500 line-clamp-3 mb-6">{member.bio}</p>
+              <p className="text-xs sm:text-sm text-zinc-500 line-clamp-3 mb-4 sm:mb-6">{member.bio}</p>
               
               <div className="flex gap-2">
                 <button 
                   onClick={() => handleEdit(member)}
-                  className="flex-1 py-2.5 rounded-xl bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10 transition-all flex items-center justify-center gap-2 text-sm font-bold"
+                  className="flex-1 py-2 sm:py-2.5 rounded-lg sm:rounded-xl bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10 transition-all flex items-center justify-center gap-2 text-xs sm:text-sm font-bold"
                 >
                   <Edit2 size={16} /> Edit
                 </button>
                 <button 
                   onClick={() => handleDelete(member.id, member.image_url)}
-                  className="flex-1 py-2.5 rounded-xl bg-red-400/5 text-red-400 hover:text-white hover:bg-red-400 transition-all flex items-center justify-center gap-2 text-sm font-bold"
+                  className="flex-1 py-2 sm:py-2.5 rounded-lg sm:rounded-xl bg-red-400/5 text-red-400 hover:text-white hover:bg-red-400 transition-all flex items-center justify-center gap-2 text-xs sm:text-sm font-bold"
                 >
                   <Trash2 size={16} /> Delete
                 </button>
@@ -195,30 +195,30 @@ const ManageTeam: React.FC = () => {
 
       <AnimatePresence>
         {isModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-6">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsModalOpen(false)} className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
-            <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} className="relative w-full max-w-2xl bg-[#0a0a0a] border border-white/10 rounded-[40px] shadow-2xl overflow-hidden">
-              <div className="p-8 border-b border-white/5 flex justify-between items-center">
-                <h2 className="text-2xl font-display font-bold">{editingMember ? 'Edit Member' : 'Add New Member'}</h2>
-                <button onClick={() => setIsModalOpen(false)} className="p-2 rounded-full hover:bg-white/5 text-zinc-500 hover:text-white"><X size={24} /></button>
+            <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} className="relative w-full max-w-2xl bg-[#0a0a0a] border border-white/10 rounded-[24px] sm:rounded-[40px] shadow-2xl overflow-hidden">
+              <div className="p-5 sm:p-8 border-b border-white/5 flex justify-between items-center">
+                <h2 className="text-xl sm:text-2xl font-display font-bold">{editingMember ? 'Edit Member' : 'Add New Member'}</h2>
+                <button onClick={() => setIsModalOpen(false)} className="p-2 rounded-full hover:bg-white/5 text-zinc-500 hover:text-white"><X className="w-5 h-5 sm:w-6 sm:h-6" /></button>
               </div>
-              <form onSubmit={handleSubmit} className="p-8 space-y-6 max-h-[70vh] overflow-y-auto custom-scrollbar">
-                <div className="grid grid-cols-2 gap-6">
+              <form onSubmit={handleSubmit} className="p-5 sm:p-8 space-y-6 max-h-[80vh] overflow-y-auto custom-scrollbar">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                   <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-widest text-zinc-500">Full Name</label>
-                    <input required type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} placeholder="e.g. John Doe" className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 px-4 focus:border-brand/50 outline-none transition-all" />
+                    <label className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-zinc-500">Full Name</label>
+                    <input required type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} placeholder="e.g. John Doe" className="w-full bg-white/5 border border-white/10 rounded-xl sm:rounded-2xl py-2.5 sm:py-3 px-4 focus:border-brand/50 outline-none transition-all text-sm sm:text-base" />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-widest text-zinc-500">Role</label>
-                    <input required type="text" value={formData.role} onChange={(e) => setFormData({...formData, role: e.target.value})} placeholder="e.g. Creative Director" className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 px-4 focus:border-brand/50 outline-none transition-all" />
+                    <label className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-zinc-500">Role</label>
+                    <input required type="text" value={formData.role} onChange={(e) => setFormData({...formData, role: e.target.value})} placeholder="e.g. Creative Director" className="w-full bg-white/5 border border-white/10 rounded-xl sm:rounded-2xl py-2.5 sm:py-3 px-4 focus:border-brand/50 outline-none transition-all text-sm sm:text-base" />
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-bold uppercase tracking-widest text-zinc-500">Bio</label>
-                  <textarea required rows={3} value={formData.bio} onChange={(e) => setFormData({...formData, bio: e.target.value})} placeholder="Short professional bio..." className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 px-4 focus:border-brand/50 outline-none transition-all resize-none" />
+                  <label className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-zinc-500">Bio</label>
+                  <textarea required rows={3} value={formData.bio} onChange={(e) => setFormData({...formData, bio: e.target.value})} placeholder="Short professional bio..." className="w-full bg-white/5 border border-white/10 rounded-xl sm:rounded-2xl py-2.5 sm:py-3 px-4 focus:border-brand/50 outline-none transition-all resize-none text-sm sm:text-base" />
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-bold uppercase tracking-widest text-zinc-500">Profile Image</label>
+                  <label className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-zinc-500">Profile Image</label>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-4">
                       <input 
@@ -226,7 +226,7 @@ const ManageTeam: React.FC = () => {
                         value={formData.image_url} 
                         onChange={(e) => setFormData({...formData, image_url: e.target.value})} 
                         placeholder="Image URL (https://...)" 
-                        className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 px-4 focus:border-brand/50 outline-none transition-all text-sm" 
+                        className="w-full bg-white/5 border border-white/10 rounded-xl sm:rounded-2xl py-2.5 sm:py-3 px-4 focus:border-brand/50 outline-none transition-all text-sm" 
                       />
                       <div className="relative">
                         <input
@@ -238,14 +238,14 @@ const ManageTeam: React.FC = () => {
                         />
                         <label 
                           htmlFor="team-image-upload"
-                          className="flex items-center justify-center gap-2 w-full py-3 rounded-2xl border-2 border-dashed border-white/10 hover:border-brand/50 hover:bg-brand/5 transition-all cursor-pointer font-bold text-sm"
+                          className="flex items-center justify-center gap-2 w-full py-2.5 sm:py-3 rounded-xl sm:rounded-2xl border-2 border-dashed border-white/10 hover:border-brand/50 hover:bg-brand/5 transition-all cursor-pointer font-bold text-sm"
                         >
                           {isUploading ? <Loader2 className="animate-spin" size={18} /> : <Plus size={18} />}
                           {isUploading ? 'Uploading...' : 'Upload Image'}
                         </label>
                       </div>
                     </div>
-                    <div className="w-full aspect-square rounded-2xl bg-white/5 border border-white/10 overflow-hidden relative group">
+                    <div className="w-full aspect-square rounded-xl sm:rounded-2xl bg-white/5 border border-white/10 overflow-hidden relative group">
                       {formData.image_url ? (
                         <>
                           <img src={formData.image_url} alt="Preview" className="w-full h-full object-cover" />
@@ -260,25 +260,25 @@ const ManageTeam: React.FC = () => {
                       ) : (
                         <div className="absolute inset-0 flex flex-col items-center justify-center text-zinc-600">
                           <User size={32} className="mb-2" />
-                          <span className="text-xs font-bold uppercase tracking-widest">No Image</span>
+                          <span className="text-[10px] font-bold uppercase tracking-widest">No Image</span>
                         </div>
                       )}
                     </div>
                   </div>
                 </div>
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-widest text-zinc-500">LinkedIn</label>
-                    <input type="url" value={formData.linkedin_url} onChange={(e) => setFormData({...formData, linkedin_url: e.target.value})} placeholder="URL" className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 px-4 focus:border-brand/50 outline-none transition-all" />
+                    <label className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-zinc-500">LinkedIn</label>
+                    <input type="url" value={formData.linkedin_url} onChange={(e) => setFormData({...formData, linkedin_url: e.target.value})} placeholder="URL" className="w-full bg-white/5 border border-white/10 rounded-xl sm:rounded-2xl py-2.5 sm:py-3 px-4 focus:border-brand/50 outline-none transition-all text-sm sm:text-base" />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-widest text-zinc-500">Twitter</label>
-                    <input type="url" value={formData.twitter_url} onChange={(e) => setFormData({...formData, twitter_url: e.target.value})} placeholder="URL" className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 px-4 focus:border-brand/50 outline-none transition-all" />
+                    <label className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-zinc-500">Twitter</label>
+                    <input type="url" value={formData.twitter_url} onChange={(e) => setFormData({...formData, twitter_url: e.target.value})} placeholder="URL" className="w-full bg-white/5 border border-white/10 rounded-xl sm:rounded-2xl py-2.5 sm:py-3 px-4 focus:border-brand/50 outline-none transition-all text-sm sm:text-base" />
                   </div>
                 </div>
-                <div className="pt-6 border-t border-white/5 flex gap-4">
-                  <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-4 rounded-2xl bg-white/5 text-white font-bold hover:bg-white/10 transition-all">Cancel</button>
-                  <button type="submit" className="flex-1 py-4 rounded-2xl bg-brand text-white font-bold hover:bg-brand-dark transition-all shadow-lg shadow-brand/20">{editingMember ? 'Update Member' : 'Create Member'}</button>
+                <div className="pt-6 border-t border-white/5 flex flex-col sm:flex-row gap-3 sm:gap-4">
+                  <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-white/5 text-white font-bold hover:bg-white/10 transition-all text-sm sm:text-base order-2 sm:order-1">Cancel</button>
+                  <button type="submit" className="flex-1 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-brand text-white font-bold hover:bg-brand-dark transition-all shadow-lg shadow-brand/20 text-sm sm:text-base order-1 sm:order-2">{editingMember ? 'Update Member' : 'Create Member'}</button>
                 </div>
               </form>
             </motion.div>

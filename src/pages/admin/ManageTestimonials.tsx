@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { api, Testimonial } from '../../services/api';
 import { useTestimonials } from '../../hooks/useAdminData';
+import { cn } from '../../lib/utils';
 
 const ManageTestimonials: React.FC = () => {
   const { testimonials, isLoading, refresh: fetchTestimonials } = useTestimonials();
@@ -104,11 +105,11 @@ const ManageTestimonials: React.FC = () => {
   );
 
   return (
-    <div className="space-y-8">
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+    <div className="space-y-6 sm:space-y-8">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
         <div>
-          <h1 className="text-4xl font-display font-bold tracking-tight mb-2">Testimonials</h1>
-          <p className="text-zinc-500">Manage client feedback and social proof.</p>
+          <h1 className="text-2xl sm:text-4xl font-display font-bold tracking-tight mb-1 sm:mb-2">Testimonials</h1>
+          <p className="text-sm sm:text-base text-zinc-500">Manage client feedback and social proof.</p>
         </div>
         <button 
           onClick={() => {
@@ -124,7 +125,7 @@ const ManageTestimonials: React.FC = () => {
             });
             setIsModalOpen(true);
           }}
-          className="flex items-center gap-2 px-6 py-3 bg-brand text-white rounded-2xl font-bold hover:bg-brand-dark transition-all shadow-lg shadow-brand/20"
+          className="w-full sm:w-auto flex items-center justify-center gap-2 px-6 py-3 bg-brand text-white rounded-xl sm:rounded-2xl font-bold hover:bg-brand-dark transition-all shadow-lg shadow-brand/20 text-sm sm:text-base"
         >
           <Plus size={20} />
           Add Testimonial
@@ -138,11 +139,11 @@ const ManageTestimonials: React.FC = () => {
           placeholder="Search testimonials..." 
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
-          className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 pl-12 pr-4 focus:border-brand/50 transition-all outline-none"
+          className="w-full bg-white/5 border border-white/10 rounded-xl sm:rounded-2xl py-2.5 sm:py-3 pl-12 pr-4 focus:border-brand/50 transition-all outline-none text-sm sm:text-base"
         />
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
         {isLoading ? (
           <div className="col-span-full py-20 flex flex-col items-center gap-4">
             <Loader2 className="animate-spin text-brand" size={40} />
@@ -155,40 +156,40 @@ const ManageTestimonials: React.FC = () => {
             <motion.div 
               layout
               key={t.id}
-              className="p-8 rounded-[32px] bg-white/[0.02] border border-white/5 hover:border-brand/20 transition-all group relative"
+              className="p-6 sm:p-8 rounded-[24px] sm:rounded-[32px] bg-white/[0.02] border border-white/5 hover:border-brand/20 transition-all group relative"
             >
-              <div className="absolute top-8 right-8 text-white/5 group-hover:text-brand/10 transition-colors">
-                <Quote size={60} />
+              <div className="absolute top-6 sm:top-8 right-6 sm:right-8 text-white/5 group-hover:text-brand/10 transition-colors">
+                <Quote size={40} className="sm:size-[60px]" />
               </div>
 
-              <div className="flex items-center gap-4 mb-6">
-                <div className="w-14 h-14 rounded-full bg-zinc-800 overflow-hidden border border-white/5">
+              <div className="flex items-center gap-4 mb-4 sm:mb-6">
+                <div className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-zinc-800 overflow-hidden border border-white/5 shrink-0">
                   <img src={t.avatar_url || `https://i.pravatar.cc/150?u=${t.id}`} alt="" className="w-full h-full object-cover" />
                 </div>
-                <div>
-                  <h3 className="font-bold text-lg">{t.name}</h3>
-                  <p className="text-zinc-500 text-sm">{t.role} @ {t.company}</p>
+                <div className="min-w-0">
+                  <h3 className="font-bold text-base sm:text-lg truncate">{t.name}</h3>
+                  <p className="text-zinc-500 text-xs sm:text-sm truncate">{t.role} @ {t.company}</p>
                 </div>
               </div>
 
-              <div className="flex gap-1 mb-4">
+              <div className="flex gap-1 mb-3 sm:mb-4">
                 {[...Array(5)].map((_, i) => (
-                  <Star key={i} size={14} className={i < t.rating ? "fill-brand text-brand" : "text-zinc-700"} />
+                  <Star key={i} size={12} className={cn("sm:size-[14px]", i < t.rating ? "fill-brand text-brand" : "text-zinc-700")} />
                 ))}
               </div>
 
-              <p className="text-zinc-400 italic mb-8 relative z-10">"{t.content}"</p>
+              <p className="text-xs sm:text-sm text-zinc-400 italic mb-6 sm:mb-8 relative z-10">"{t.content}"</p>
               
               <div className="flex gap-2">
                 <button 
                   onClick={() => handleEdit(t)}
-                  className="flex-1 py-3 rounded-xl bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10 transition-all flex items-center justify-center gap-2 text-sm font-bold"
+                  className="flex-1 py-2 sm:py-3 rounded-lg sm:rounded-xl bg-white/5 text-zinc-400 hover:text-white hover:bg-white/10 transition-all flex items-center justify-center gap-2 text-xs sm:text-sm font-bold"
                 >
                   <Edit2 size={16} /> Edit
                 </button>
                 <button 
                   onClick={() => handleDelete(t.id, t.avatar_url)}
-                  className="flex-1 py-3 rounded-xl bg-red-400/5 text-red-400 hover:text-white hover:bg-red-400 transition-all flex items-center justify-center gap-2 text-sm font-bold"
+                  className="flex-1 py-2 sm:py-3 rounded-lg sm:rounded-xl bg-red-400/5 text-red-400 hover:text-white hover:bg-red-400 transition-all flex items-center justify-center gap-2 text-xs sm:text-sm font-bold"
                 >
                   <Trash2 size={16} /> Delete
                 </button>
@@ -200,34 +201,34 @@ const ManageTestimonials: React.FC = () => {
 
       <AnimatePresence>
         {isModalOpen && (
-          <div className="fixed inset-0 z-50 flex items-center justify-center p-6">
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} onClick={() => setIsModalOpen(false)} className="absolute inset-0 bg-black/80 backdrop-blur-sm" />
-            <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} className="relative w-full max-w-2xl bg-[#0a0a0a] border border-white/10 rounded-[40px] shadow-2xl overflow-hidden">
-              <div className="p-8 border-b border-white/5 flex justify-between items-center">
-                <h2 className="text-2xl font-display font-bold">{editingTestimonial ? 'Edit Testimonial' : 'Add New Testimonial'}</h2>
-                <button onClick={() => setIsModalOpen(false)} className="p-2 rounded-full hover:bg-white/5 text-zinc-500 hover:text-white"><X size={24} /></button>
+            <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.9 }} className="relative w-full max-w-2xl bg-[#0a0a0a] border border-white/10 rounded-[24px] sm:rounded-[40px] shadow-2xl overflow-hidden">
+              <div className="p-5 sm:p-8 border-b border-white/5 flex justify-between items-center">
+                <h2 className="text-xl sm:text-2xl font-display font-bold">{editingTestimonial ? 'Edit Testimonial' : 'Add New Testimonial'}</h2>
+                <button onClick={() => setIsModalOpen(false)} className="p-2 rounded-full hover:bg-white/5 text-zinc-500 hover:text-white"><X className="w-5 h-5 sm:w-6 sm:h-6" /></button>
               </div>
-              <form onSubmit={handleSubmit} className="p-8 space-y-6 max-h-[70vh] overflow-y-auto custom-scrollbar">
-                <div className="grid grid-cols-2 gap-6">
+              <form onSubmit={handleSubmit} className="p-5 sm:p-8 space-y-6 max-h-[80vh] overflow-y-auto custom-scrollbar">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6">
                   <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-widest text-zinc-500">Client Name</label>
-                    <input required type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} placeholder="e.g. Sarah Johnson" className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 px-4 focus:border-brand/50 outline-none transition-all" />
+                    <label className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-zinc-500">Client Name</label>
+                    <input required type="text" value={formData.name} onChange={(e) => setFormData({...formData, name: e.target.value})} placeholder="e.g. Sarah Johnson" className="w-full bg-white/5 border border-white/10 rounded-xl sm:rounded-2xl py-2.5 sm:py-3 px-4 focus:border-brand/50 outline-none transition-all text-sm sm:text-base" />
                   </div>
                   <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-widest text-zinc-500">Role & Company</label>
-                    <div className="flex gap-2">
-                      <input required type="text" value={formData.role} onChange={(e) => setFormData({...formData, role: e.target.value})} placeholder="CEO" className="flex-1 bg-white/5 border border-white/10 rounded-2xl py-3 px-4 focus:border-brand/50 outline-none transition-all" />
-                      <input required type="text" value={formData.company} onChange={(e) => setFormData({...formData, company: e.target.value})} placeholder="TechCorp" className="flex-1 bg-white/5 border border-white/10 rounded-2xl py-3 px-4 focus:border-brand/50 outline-none transition-all" />
+                    <label className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-zinc-500">Role & Company</label>
+                    <div className="flex flex-col sm:flex-row gap-2">
+                      <input required type="text" value={formData.role} onChange={(e) => setFormData({...formData, role: e.target.value})} placeholder="CEO" className="flex-1 bg-white/5 border border-white/10 rounded-xl sm:rounded-2xl py-2.5 sm:py-3 px-4 focus:border-brand/50 outline-none transition-all text-sm sm:text-base" />
+                      <input required type="text" value={formData.company} onChange={(e) => setFormData({...formData, company: e.target.value})} placeholder="TechCorp" className="flex-1 bg-white/5 border border-white/10 rounded-xl sm:rounded-2xl py-2.5 sm:py-3 px-4 focus:border-brand/50 outline-none transition-all text-sm sm:text-base" />
                     </div>
                   </div>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-bold uppercase tracking-widest text-zinc-500">Testimonial Content</label>
-                  <textarea required rows={4} value={formData.content} onChange={(e) => setFormData({...formData, content: e.target.value})} placeholder="What did they say about your work?" className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 px-4 focus:border-brand/50 outline-none transition-all resize-none" />
+                  <label className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-zinc-500">Testimonial Content</label>
+                  <textarea required rows={4} value={formData.content} onChange={(e) => setFormData({...formData, content: e.target.value})} placeholder="What did they say about your work?" className="w-full bg-white/5 border border-white/10 rounded-xl sm:rounded-2xl py-2.5 sm:py-3 px-4 focus:border-brand/50 outline-none transition-all resize-none text-sm sm:text-base" />
                 </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
                   <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-widest text-zinc-500">Avatar Image</label>
+                    <label className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-zinc-500">Avatar Image</label>
                     <div className="space-y-4">
                       <input 
                         required 
@@ -235,7 +236,7 @@ const ManageTestimonials: React.FC = () => {
                         value={formData.avatar_url} 
                         onChange={(e) => setFormData({...formData, avatar_url: e.target.value})} 
                         placeholder="Avatar URL (https://...)" 
-                        className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 px-4 focus:border-brand/50 outline-none transition-all text-sm" 
+                        className="w-full bg-white/5 border border-white/10 rounded-xl sm:rounded-2xl py-2.5 sm:py-3 px-4 focus:border-brand/50 outline-none transition-all text-sm" 
                       />
                       <div className="relative">
                         <input
@@ -247,7 +248,7 @@ const ManageTestimonials: React.FC = () => {
                         />
                         <label 
                           htmlFor="testimonial-image-upload"
-                          className="flex items-center justify-center gap-2 w-full py-3 rounded-2xl border-2 border-dashed border-white/10 hover:border-brand/50 hover:bg-brand/5 transition-all cursor-pointer font-bold text-sm"
+                          className="flex items-center justify-center gap-2 w-full py-2.5 sm:py-3 rounded-xl sm:rounded-2xl border-2 border-dashed border-white/10 hover:border-brand/50 hover:bg-brand/5 transition-all cursor-pointer font-bold text-sm"
                         >
                           {isUploading ? <Loader2 className="animate-spin" size={18} /> : <Plus size={18} />}
                           {isUploading ? 'Uploading...' : 'Upload Avatar'}
@@ -256,10 +257,10 @@ const ManageTestimonials: React.FC = () => {
                     </div>
                   </div>
                   <div className="space-y-2">
-                    <label className="text-xs font-bold uppercase tracking-widest text-zinc-500">Rating (1-5)</label>
-                    <div className="flex flex-col gap-4">
-                      <input required type="number" min="1" max="5" value={formData.rating} onChange={(e) => setFormData({...formData, rating: parseInt(e.target.value)})} className="w-full bg-white/5 border border-white/10 rounded-2xl py-3 px-4 focus:border-brand/50 outline-none transition-all" />
-                      <div className="w-full aspect-square max-h-[88px] rounded-2xl bg-white/5 border border-white/10 overflow-hidden relative group flex items-center justify-center">
+                    <label className="text-[10px] sm:text-xs font-bold uppercase tracking-widest text-zinc-500">Rating (1-5)</label>
+                    <div className="flex flex-col sm:flex-row gap-4">
+                      <input required type="number" min="1" max="5" value={formData.rating} onChange={(e) => setFormData({...formData, rating: parseInt(e.target.value)})} className="w-full sm:w-24 bg-white/5 border border-white/10 rounded-xl sm:rounded-2xl py-2.5 sm:py-3 px-4 focus:border-brand/50 outline-none transition-all text-sm sm:text-base" />
+                      <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-xl sm:rounded-2xl bg-white/5 border border-white/10 overflow-hidden relative group flex items-center justify-center shrink-0">
                         {formData.avatar_url ? (
                           <img src={formData.avatar_url} alt="Preview" className="w-full h-full object-cover" />
                         ) : (
@@ -269,9 +270,9 @@ const ManageTestimonials: React.FC = () => {
                     </div>
                   </div>
                 </div>
-                <div className="pt-6 border-t border-white/5 flex gap-4">
-                  <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-4 rounded-2xl bg-white/5 text-white font-bold hover:bg-white/10 transition-all">Cancel</button>
-                  <button type="submit" className="flex-1 py-4 rounded-2xl bg-brand text-white font-bold hover:bg-brand-dark transition-all shadow-lg shadow-brand/20">{editingTestimonial ? 'Update Testimonial' : 'Create Testimonial'}</button>
+                <div className="pt-6 border-t border-white/5 flex flex-col sm:flex-row gap-3 sm:gap-4">
+                  <button type="button" onClick={() => setIsModalOpen(false)} className="flex-1 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-white/5 text-white font-bold hover:bg-white/10 transition-all text-sm sm:text-base order-2 sm:order-1">Cancel</button>
+                  <button type="submit" className="flex-1 py-3 sm:py-4 rounded-xl sm:rounded-2xl bg-brand text-white font-bold hover:bg-brand-dark transition-all shadow-lg shadow-brand/20 text-sm sm:text-base order-1 sm:order-2">{editingTestimonial ? 'Update Testimonial' : 'Create Testimonial'}</button>
                 </div>
               </form>
             </motion.div>
