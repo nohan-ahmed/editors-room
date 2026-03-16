@@ -132,12 +132,25 @@ const Navbar = () => {
   const navLinks = [
     { name: 'Home', href: '#' },
     { name: 'About', href: '#about' },
-    { name: 'Projects', href: '#projects' },
+    { name: 'Work', href: '#projects' },
+    { name: 'Services', href: '#features' },
     { name: 'Team', href: '#team' },
-    { name: 'Testimonials', href: '#testimonials' },
-    { name: 'FAQ', href: '#faq' },
     { name: 'Contact', href: '#contact' },
   ];
+
+  useEffect(() => {
+    if (isMobileMenuOpen) {
+      const handleEsc = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') setIsMobileMenuOpen(false);
+      };
+      window.addEventListener('keydown', handleEsc);
+      document.body.style.overflow = 'hidden';
+      return () => {
+        window.removeEventListener('keydown', handleEsc);
+        document.body.style.overflow = 'unset';
+      };
+    }
+  }, [isMobileMenuOpen]);
 
   return (
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? 'py-4' : 'py-8'}`}>
@@ -182,7 +195,17 @@ const Navbar = () => {
             exit={{ opacity: 0, x: '100%' }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
             className="fixed inset-0 bg-[#0a0505] z-40 flex flex-col items-center justify-center gap-8 lg:hidden"
+            onClick={(e) => {
+              if (e.target === e.currentTarget) setIsMobileMenuOpen(false);
+            }}
           >
+            <button 
+              className="absolute top-8 right-10 p-2 text-white cursor-pointer hover:text-brand transition-colors"
+              onClick={() => setIsMobileMenuOpen(false)}
+            >
+              <X size={32} />
+            </button>
+
             {navLinks.map((link, idx) => (
               <motion.a 
                 initial={{ opacity: 0, y: 20 }}
@@ -553,7 +576,9 @@ const Footer = () => {
               <h4 className="text-zinc-500 font-mono text-xs uppercase tracking-widest mb-8">Navigation</h4>
               <ul className="space-y-4 text-xl font-bold">
                 <li><a href="#" className="hover:text-brand transition-colors cursor-pointer">Home</a></li>
-                <li><a href="#features" className="hover:text-brand transition-colors cursor-pointer">Features</a></li>
+                <li><a href="#about" className="hover:text-brand transition-colors cursor-pointer">About</a></li>
+                <li><a href="#projects" className="hover:text-brand transition-colors cursor-pointer">Work</a></li>
+                <li><a href="#features" className="hover:text-brand transition-colors cursor-pointer">Services</a></li>
                 <li><a href="#team" className="hover:text-brand transition-colors cursor-pointer">Team</a></li>
                 <li><a href="#contact" className="hover:text-brand transition-colors cursor-pointer">Contact</a></li>
               </ul>
