@@ -34,6 +34,7 @@ import {
   Star
 } from 'lucide-react';
 
+import Logo from './components/Logo';
 import AboutSection from './components/AboutSection';
 import ProjectsSection from './components/ProjectsSection';
 import TeamSection from './components/TeamSection';
@@ -157,12 +158,7 @@ const Navbar = () => {
     <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${isScrolled ? 'py-4' : 'py-8'}`}>
       <div className="max-w-[1400px] mx-auto px-6">
         <div className={`flex justify-between items-center px-6 py-3 rounded-2xl transition-all duration-500 ${isScrolled ? 'glass-nav shadow-2xl' : 'bg-transparent'}`}>
-          <a href="#" className="flex items-center gap-3 group cursor-pointer">
-            <div className="w-10 h-10 bg-brand rounded-xl flex items-center justify-center text-white font-bold text-2xl group-hover:rotate-[360deg] transition-transform duration-700 shadow-[0_0_20px_rgba(255,77,0,0.5)]">
-              <Zap size={20} fill="currentColor" />
-            </div>
-            <span className="font-display font-bold text-2xl tracking-tighter text-glow">Pumpkin</span>
-          </a>
+          <Logo />
 
           {/* Desktop Nav */}
           <div className="hidden lg:flex items-center gap-8">
@@ -570,12 +566,7 @@ const Footer = () => {
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="flex flex-col md:flex-row justify-between items-start gap-16 mb-20">
           <div className="max-w-xl">
-            <a href="#" className="flex items-center gap-3 mb-8 cursor-pointer group">
-              <div className="w-12 h-12 bg-brand rounded-xl flex items-center justify-center text-white font-bold text-2xl brand-glow group-hover:rotate-[360deg] transition-transform duration-700">
-                <Zap size={24} fill="currentColor" />
-              </div>
-              <span className="font-display font-bold text-3xl tracking-tighter group-hover:text-brand transition-colors">Pumpkin</span>
-            </a>
+            <Logo className="mb-8" />
             <h2 className="text-4xl md:text-6xl font-display font-bold tracking-tighter mb-8 leading-[0.9]">Ready to build <br /> the future?</h2>
             <div className="flex gap-4">
               <a href="#" className="w-12 h-12 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center text-white hover:bg-brand transition-all cursor-pointer">

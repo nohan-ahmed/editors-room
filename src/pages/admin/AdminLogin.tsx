@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
+import Logo from '../../components/Logo';
 import { Zap, Mail, Lock, Loader2, ArrowRight } from 'lucide-react';
 import { supabase } from '../../lib/supabase';
 
@@ -48,9 +49,7 @@ const AdminLogin: React.FC = () => {
         className="w-full max-w-md relative z-10"
       >
         <div className="text-center mb-10">
-          <div className="inline-flex items-center justify-center w-16 h-16 bg-brand rounded-2xl mb-6 shadow-[0_0_30px_rgba(255,77,0,0.3)]">
-            <Zap size={32} fill="currentColor" />
-          </div>
+          <Logo iconOnly className="inline-flex w-16 h-16 mb-6" />
           <h1 className="text-4xl font-display font-bold tracking-tight mb-2">Welcome Back</h1>
           <p className="text-zinc-500">Sign in to manage your agency content.</p>
         </div>

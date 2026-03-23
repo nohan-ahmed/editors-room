@@ -15,6 +15,7 @@ import {
   X
 } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import Logo from '../../components/Logo';
 import { cn } from '../../lib/utils';
 import { supabase } from '../../lib/supabase';
 
@@ -67,11 +68,8 @@ const AdminLayout: React.FC = () => {
         isSidebarOpen ? "translate-x-0" : "-translate-x-full"
       )}>
         <div className="p-8 flex items-center justify-between">
-          <Link to="/" className="flex items-center gap-3 group cursor-pointer">
-            <div className="w-10 h-10 bg-brand rounded-xl flex items-center justify-center text-white font-bold text-2xl shadow-[0_0_20px_rgba(255,77,0,0.3)]">
-              <Zap size={20} fill="currentColor" />
-            </div>
-            <span className="font-display font-bold text-2xl tracking-tighter">Pumpkin</span>
+          <Link to="/">
+            <Logo iconOnly />
           </Link>
           <button 
             onClick={() => setIsSidebarOpen(false)}
