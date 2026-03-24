@@ -9,7 +9,8 @@ import {
   ArrowDownRight,
   Briefcase,
   Star,
-  Loader2
+  Loader2,
+  Zap
 } from 'lucide-react';
 import { 
   AreaChart, 
@@ -78,11 +79,12 @@ const DashboardHome: React.FC = () => {
       </div>
 
       {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4 sm:gap-6">
         <StatCard title="Total Projects" value={stats.projects} change="12.5" icon={Briefcase} trend="up" isLoading={isLoading} />
         <StatCard title="Featured Projects" value={stats.featuredProjects} change="2.4" icon={TrendingUp} trend="up" isLoading={isLoading} />
         <StatCard title="Team Members" value={stats.team} change="0" icon={Users} trend="up" isLoading={isLoading} />
         <StatCard title="Testimonials" value={stats.testimonials} change="0.2" icon={MessageSquare} trend="up" isLoading={isLoading} />
+        <StatCard title="Services" value={stats.services} change="0" icon={Zap} trend="up" isLoading={isLoading} />
       </div>
 
       {/* Charts Section */}

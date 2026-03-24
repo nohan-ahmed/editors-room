@@ -38,6 +38,15 @@ export interface Testimonial {
   created_at?: string;
 }
 
+export interface Service {
+  id: string;
+  title: string;
+  description: string;
+  icon_name: string;
+  sort_order: number;
+  created_at?: string;
+}
+
 export interface BlogPost {
   id: string;
   title: string;
@@ -194,6 +203,30 @@ export const api = {
       if (error) throw error;
     }
   },
+  services: {
+    getAll: async () => {
+      const { data, error } = await supabase
+        .from('services')
+        .select('*')
+        .order('sort_order', { ascending: true });
+      if (error) throw error;
+      return data as Service[];
+    },
+    create: async (service: Omit<Service, 'id' | 'created_at'>) => {
+      const { data, error } = await supabase.from('services').insert([service]).select().single();
+      if (error) throw error;
+      return data as Service;
+    },
+    update: async (id: string, service: Partial<Service>) => {
+      const { data, error } = await supabase.from('services').update(service).eq('id', id).select().single();
+      if (error) throw error;
+      return data as Service;
+    },
+    delete: async (id: string) => {
+      const { error } = await supabase.from('services').delete().eq('id', id);
+      if (error) throw error;
+    }
+  },
   blog: {
     getAll: async () => {
       const { data, error } = await supabase
@@ -224,19 +257,22 @@ export const api = {
         { count: projectsCount },
         { count: featuredProjectsCount },
         { count: teamCount },
-        { count: testimonialsCount }
+        { count: testimonialsCount },
+        { count: servicesCount }
       ] = await Promise.all([
         supabase.from('projects').select('*', { count: 'exact', head: true }),
         supabase.from('projects').select('*', { count: 'exact', head: true }).eq('is_featured', true),
         supabase.from('team_members').select('*', { count: 'exact', head: true }),
-        supabase.from('testimonials').select('*', { count: 'exact', head: true })
+        supabase.from('testimonials').select('*', { count: 'exact', head: true }),
+        supabase.from('services').select('*', { count: 'exact', head: true })
       ]);
 
       return {
         projects: projectsCount || 0,
         featuredProjects: featuredProjectsCount || 0,
         team: teamCount || 0,
-        testimonials: testimonialsCount || 0
+        testimonials: testimonialsCount || 0,
+        services: servicesCount || 0
       };
     },
     getRecentActivity: async () => {

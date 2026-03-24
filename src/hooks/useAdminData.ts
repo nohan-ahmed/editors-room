@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react';
-import { api, Project, TeamMember, Testimonial, BlogPost } from '../services/api';
+import { api, Project, TeamMember, Testimonial, BlogPost, Service } from '../services/api';
 
 export function useProjects() {
   const [projects, setProjects] = useState<Project[]>([]);
@@ -76,6 +76,31 @@ export function useTestimonials() {
   return { testimonials, isLoading, error, refresh: fetchTestimonials };
 }
 
+export function useServices() {
+  const [services, setServices] = useState<Service[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<Error | null>(null);
+
+  const fetchServices = useCallback(async () => {
+    setIsLoading(true);
+    try {
+      const data = await api.services.getAll();
+      setServices(data);
+      setError(null);
+    } catch (err) {
+      setError(err as Error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    fetchServices();
+  }, [fetchServices]);
+
+  return { services, isLoading, error, refresh: fetchServices };
+}
+
 export function useBlogPosts() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -106,7 +131,8 @@ export function useDashboardStats() {
     projects: 0,
     featuredProjects: 0,
     team: 0,
-    testimonials: 0
+    testimonials: 0,
+    services: 0
   });
   const [recentActivity, setRecentActivity] = useState<{
     recentProjects: Project[];
@@ -154,10 +180,16 @@ export function useDashboardStats() {
       .on('postgres_changes', { event: '*', schema: 'public', table: 'testimonials' }, () => fetchData())
       .subscribe();
 
+    const servicesSub = api.supabase
+      .channel('services-changes')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'services' }, () => fetchData())
+      .subscribe();
+
     return () => {
       projectsSub.unsubscribe();
       teamSub.unsubscribe();
       testimonialsSub.unsubscribe();
+      servicesSub.unsubscribe();
     };
   }, [fetchData]);
 

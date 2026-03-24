@@ -13,6 +13,7 @@ import {
   useLocation,
   Link 
 } from 'react-router-dom';
+import * as LucideIcons from 'lucide-react';
 import { 
   ArrowRight, 
   Menu, 
@@ -35,6 +36,8 @@ import {
   Star
 } from 'lucide-react';
 
+import { api, Service } from './services/api';
+
 import Logo from './components/Logo';
 import AboutSection from './components/AboutSection';
 import ProjectsSection from './components/ProjectsSection';
@@ -49,6 +52,7 @@ import DashboardHome from './pages/admin/DashboardHome';
 import ManageProjects from './pages/admin/ManageProjects';
 import ManageTeam from './pages/admin/ManageTeam';
 import ManageTestimonials from './pages/admin/ManageTestimonials';
+import ManageServices from './pages/admin/ManageServices';
 import AdminLogin from './pages/admin/AdminLogin';
 import ManageBlog from './pages/admin/ManageBlog';
 import ProtectedRoute from './components/admin/ProtectedRoute';
@@ -351,15 +355,41 @@ const Hero = () => {
 
 const FeaturesSection = () => {
   const sectionRef = useRef<HTMLDivElement>(null);
-  
-  const features = [
-    { icon: Target, title: 'Strategic Vision', desc: 'Defining the digital roadmap for industry leaders.' },
-    { icon: Palette, title: 'Immersive Design', desc: 'Creating experiences that transcend the screen.' },
-    { icon: Code, title: 'Future Tech', desc: 'Building with the most advanced stacks available.' },
-    { icon: Sparkles, title: 'AI Integration', desc: 'Harnessing machine intelligence for growth.' },
-    { icon: Globe, title: 'Global Reach', desc: 'Scaling your brand across international markets.' },
-    { icon: Clock, title: 'Rapid Delivery', desc: 'Fast turnarounds without compromising on quality.' },
-  ];
+  const [services, setServices] = useState<Service[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchServices = async () => {
+      try {
+        const data = await api.services.getAll();
+        if (data && data.length > 0) {
+          setServices(data);
+        } else {
+          // Fallback to static data if no services in DB
+          const fallback: Service[] = [
+            { id: '1', icon_name: 'Target', title: 'Strategic Vision', description: 'Defining the digital roadmap for industry leaders.', sort_order: 0 },
+            { id: '2', icon_name: 'Palette', title: 'Immersive Design', description: 'Creating experiences that transcend the screen.', sort_order: 1 },
+            { id: '3', icon_name: 'Code', title: 'Future Tech', description: 'Building with the most advanced stacks available.', sort_order: 2 },
+            { id: '4', icon_name: 'Sparkles', title: 'AI Integration', description: 'Harnessing machine intelligence for growth.', sort_order: 3 },
+            { id: '5', icon_name: 'Globe', title: 'Global Reach', description: 'Scaling your brand across international markets.', sort_order: 4 },
+            { id: '6', icon_name: 'Clock', title: 'Rapid Delivery', description: 'Fast turnarounds without compromising on quality.', sort_order: 5 },
+          ];
+          setServices(fallback);
+        }
+      } catch (error) {
+        console.error('Error fetching services:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchServices();
+  }, []);
+
+  const getIcon = (name: string) => {
+    const Icon = (LucideIcons as any)[name];
+    return Icon || LucideIcons.Target;
+  };
 
   return (
     <section id="features" ref={sectionRef} className="py-32 relative overflow-hidden">
@@ -380,24 +410,33 @@ const FeaturesSection = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {features.map((feature, idx) => (
-            <motion.div 
-              key={feature.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ delay: idx * 0.1, duration: 0.6, ease: "easeOut" }}
-              whileHover={{ y: -10, scale: 1.02 }}
-              className="p-10 rounded-[40px] bg-white/5 border border-white/10 hover:border-brand/50 transition-all group relative overflow-hidden cursor-pointer"
-            >
-              <div className="absolute inset-0 bg-gradient-to-br from-brand/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-              <div className="w-16 h-16 rounded-2xl bg-brand/10 flex items-center justify-center text-brand mb-8 group-hover:bg-brand group-hover:text-white transition-all">
-                <feature.icon size={32} />
-              </div>
-              <h3 className="text-2xl font-display font-bold mb-4">{feature.title}</h3>
-              <p className="text-zinc-500 leading-relaxed">{feature.desc}</p>
-            </motion.div>
-          ))}
+          {isLoading ? (
+            [...Array(6)].map((_, i) => (
+              <div key={i} className="h-64 rounded-[40px] bg-white/5 animate-pulse" />
+            ))
+          ) : (
+            services.map((service, idx) => {
+              const Icon = getIcon(service.icon_name);
+              return (
+                <motion.div 
+                  key={service.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ delay: idx * 0.1, duration: 0.6, ease: "easeOut" }}
+                  whileHover={{ y: -10, scale: 1.02 }}
+                  className="p-10 rounded-[40px] bg-white/5 border border-white/10 hover:border-brand/50 transition-all group relative overflow-hidden cursor-pointer"
+                >
+                  <div className="absolute inset-0 bg-gradient-to-br from-brand/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="w-16 h-16 rounded-2xl bg-brand/10 flex items-center justify-center text-brand mb-8 group-hover:bg-brand group-hover:text-white transition-all">
+                    <Icon size={32} />
+                  </div>
+                  <h3 className="text-2xl font-display font-bold mb-4">{service.title}</h3>
+                  <p className="text-zinc-500 leading-relaxed">{service.description}</p>
+                </motion.div>
+              );
+            })
+          )}
         </div>
       </div>
     </section>
@@ -678,6 +717,7 @@ export default function App() {
           <Route path="projects" element={<ManageProjects />} />
           <Route path="team" element={<ManageTeam />} />
           <Route path="testimonials" element={<ManageTestimonials />} />
+          <Route path="services" element={<ManageServices />} />
           <Route path="blog" element={<ManageBlog />} />
           <Route path="settings" element={<div className="p-10 text-center text-zinc-500">Settings coming soon...</div>} />
         </Route>
