@@ -10,7 +10,8 @@ import {
   BrowserRouter as Router, 
   Routes, 
   Route, 
-  useLocation 
+  useLocation,
+  Link 
 } from 'react-router-dom';
 import { 
   ArrowRight, 
@@ -51,6 +52,7 @@ import ManageTestimonials from './pages/admin/ManageTestimonials';
 import AdminLogin from './pages/admin/AdminLogin';
 import ManageBlog from './pages/admin/ManageBlog';
 import ProtectedRoute from './components/admin/ProtectedRoute';
+import ProjectsPage from './pages/ProjectsPage';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -305,13 +307,15 @@ const Hero = () => {
               Get Started
               <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform" />
             </motion.button>
-            <motion.button 
-              whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.1)" }}
-              whileTap={{ scale: 0.95 }}
-              className="px-10 py-5 rounded-2xl font-bold text-lg border border-white/20 hover:bg-white/5 transition-all cursor-pointer"
-            >
-              View our work
-            </motion.button>
+            <Link to="/projects">
+              <motion.button 
+                whileHover={{ scale: 1.05, backgroundColor: "rgba(255, 255, 255, 0.1)" }}
+                whileTap={{ scale: 0.95 }}
+                className="px-10 py-5 rounded-2xl font-bold text-lg border border-white/20 hover:bg-white/5 transition-all cursor-pointer"
+              >
+                View our work
+              </motion.button>
+            </Link>
           </div>
         </motion.div>
       </div>
@@ -658,6 +662,7 @@ export default function App() {
       <Routes>
         {/* Main Website */}
         <Route path="/" element={<MainSite />} />
+        <Route path="/projects" element={<ProjectsPage />} />
         
         {/* Admin Dashboard */}
         <Route path="/admin/login" element={<AdminLogin />} />

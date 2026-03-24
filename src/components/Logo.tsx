@@ -30,7 +30,7 @@ const Logo: React.FC<LogoProps> = ({ className, iconOnly = false, variant = 'lig
           "font-display font-bold text-2xl tracking-tighter transition-colors",
           variant === 'light' ? "text-white group-hover:text-brand" : "text-white group-hover:text-brand"
         )}>
-          Editors Room
+          ER Agency
         </span>
       )}
     </div>
