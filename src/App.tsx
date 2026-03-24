@@ -32,11 +32,16 @@ import {
   ChevronDown,
   Mail,
   User,
+  Phone,
+  Tag,
   MessageSquare,
-  Star
+  Star,
+  CheckCircle2,
+  Loader2
 } from 'lucide-react';
 
 import { api, Service } from './services/api';
+import { cn } from './lib/utils';
 
 import Logo from './components/Logo';
 import AboutSection from './components/AboutSection';
@@ -177,6 +182,7 @@ const Navbar = () => {
               whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(255, 77, 0, 0.4)" }}
               whileTap={{ scale: 0.95 }}
               className="bg-white text-black px-6 py-2.5 rounded-xl text-sm font-bold hover:bg-brand hover:text-white transition-all brand-glow cursor-pointer"
+              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
             >
               Get Started
             </motion.button>
@@ -227,6 +233,10 @@ const Navbar = () => {
               whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(255, 77, 0, 0.6)" }}
               whileTap={{ scale: 0.95 }}
               className="mt-8 bg-brand text-white px-10 py-4 rounded-2xl font-bold text-xl brand-glow cursor-pointer"
+              onClick={() => {
+                setIsMobileMenuOpen(false);
+                document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
+              }}
             >
               Get Started
             </motion.button>
@@ -307,6 +317,7 @@ const Hero = () => {
               whileHover={{ scale: 1.05, boxShadow: "0 0 30px rgba(255, 77, 0, 0.5)" }}
               whileTap={{ scale: 0.95 }}
               className="bg-white text-black px-10 py-5 rounded-2xl font-bold text-lg hover:bg-brand hover:text-white transition-all flex items-center gap-3 group brand-glow cursor-pointer"
+              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
             >
               Get Started
               <ArrowRight size={20} className="group-hover:translate-x-2 transition-transform" />
@@ -524,6 +535,7 @@ const CTASection = () => {
               whileHover={{ scale: 1.05, boxShadow: "0 0 40px rgba(255, 255, 255, 0.3)" }}
               whileTap={{ scale: 0.95 }}
               className="bg-white text-black px-12 py-6 rounded-2xl font-bold text-xl transition-all shadow-2xl cursor-pointer"
+              onClick={() => document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })}
             >
               Get Started Now
             </motion.button>
@@ -535,6 +547,72 @@ const CTASection = () => {
 };
 
 const ContactSection = () => {
+  const [formData, setFormData] = useState({
+    fullName: '',
+    email: '',
+    phone: '',
+    needs: '',
+    subject: '',
+    message: ''
+  });
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const validate = () => {
+    const newErrors: Record<string, string> = {};
+    if (!formData.fullName.trim()) newErrors.fullName = 'Full name is required';
+    if (!formData.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
+      newErrors.email = 'Invalid email format';
+    }
+    if (!formData.phone.trim()) {
+      newErrors.phone = 'Phone number is required';
+    } else if (!/^\+?[\d\s-]{10,}$/.test(formData.phone)) {
+      newErrors.phone = 'Invalid phone format';
+    }
+    if (!formData.message.trim()) newErrors.message = 'Message is required';
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validate()) return;
+
+    setIsSubmitting(true);
+    // Simulate API call
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    setIsSubmitting(false);
+    setIsSubmitted(true);
+    setFormData({
+      fullName: '',
+      email: '',
+      phone: '',
+      needs: '',
+      subject: '',
+      message: ''
+    });
+    
+    // Reset success message after 5 seconds
+    setTimeout(() => setIsSubmitted(false), 5000);
+  };
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
+    // Clear error when user starts typing
+    if (errors[name]) {
+      setErrors(prev => {
+        const newErrors = { ...prev };
+        delete newErrors[name];
+        return newErrors;
+      });
+    }
+  };
+
   return (
     <section id="contact" className="py-32 relative">
       <div className="max-w-7xl mx-auto px-6">
@@ -566,35 +644,165 @@ const ContactSection = () => {
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 1 }}
-            className="p-12 rounded-[40px] bg-white/5 border border-white/10 space-y-8"
+            className="p-12 rounded-[40px] bg-white/5 border border-white/10 space-y-6 relative overflow-hidden"
+            onSubmit={handleSubmit}
           >
-            <div className="space-y-4">
-              <label className="text-sm font-bold uppercase tracking-widest text-zinc-500">Full Name</label>
-              <div className="relative">
-                <User className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500" size={20} />
-                <input type="text" placeholder="John Doe" className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-4 focus:border-brand transition-colors outline-none" />
+            <AnimatePresence>
+              {isSubmitted && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  className="absolute inset-0 z-20 bg-zinc-900/95 backdrop-blur-sm flex flex-col items-center justify-center text-center p-8"
+                >
+                  <div className="w-20 h-20 rounded-full bg-brand/20 flex items-center justify-center text-brand mb-6">
+                    <CheckCircle2 size={48} />
+                  </div>
+                  <h3 className="text-3xl font-display font-bold mb-4">Message Sent!</h3>
+                  <p className="text-zinc-400 max-w-xs">
+                    Thank you for reaching out. Our team will get back to you shortly.
+                  </p>
+                  <button 
+                    type="button"
+                    onClick={() => setIsSubmitted(false)}
+                    className="mt-8 text-brand font-bold hover:underline"
+                  >
+                    Send another message
+                  </button>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-3">
+                <label className="text-xs font-bold uppercase tracking-widest text-zinc-500">Full Name</label>
+                <div className="relative">
+                  <User className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500" size={18} />
+                  <input 
+                    type="text" 
+                    name="fullName"
+                    value={formData.fullName}
+                    onChange={handleChange}
+                    placeholder="John Doe" 
+                    className={cn(
+                      "w-full bg-white/5 border rounded-2xl py-4 pl-12 pr-4 focus:border-brand transition-colors outline-none text-white",
+                      errors.fullName ? "border-red-500/50" : "border-white/10"
+                    )}
+                  />
+                </div>
+                {errors.fullName && <p className="text-red-500 text-[10px] uppercase font-bold tracking-wider">{errors.fullName}</p>}
+              </div>
+              <div className="space-y-3">
+                <label className="text-xs font-bold uppercase tracking-widest text-zinc-500">Email Address</label>
+                <div className="relative">
+                  <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500" size={18} />
+                  <input 
+                    type="email" 
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    placeholder="john@example.com" 
+                    className={cn(
+                      "w-full bg-white/5 border rounded-2xl py-4 pl-12 pr-4 focus:border-brand transition-colors outline-none text-white",
+                      errors.email ? "border-red-500/50" : "border-white/10"
+                    )}
+                  />
+                </div>
+                {errors.email && <p className="text-red-500 text-[10px] uppercase font-bold tracking-wider">{errors.email}</p>}
               </div>
             </div>
-            <div className="space-y-4">
-              <label className="text-sm font-bold uppercase tracking-widest text-zinc-500">Email Address</label>
-              <div className="relative">
-                <Mail className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500" size={20} />
-                <input type="email" placeholder="john@example.com" className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-4 focus:border-brand transition-colors outline-none" />
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              <div className="space-y-3">
+                <label className="text-xs font-bold uppercase tracking-widest text-zinc-500">Phone Number</label>
+                <div className="relative">
+                  <Phone className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500" size={18} />
+                  <input 
+                    type="tel" 
+                    name="phone"
+                    value={formData.phone}
+                    onChange={handleChange}
+                    placeholder="+1 (555) 000-0000" 
+                    className={cn(
+                      "w-full bg-white/5 border rounded-2xl py-4 pl-12 pr-4 focus:border-brand transition-colors outline-none text-white",
+                      errors.phone ? "border-red-500/50" : "border-white/10"
+                    )}
+                  />
+                </div>
+                {errors.phone && <p className="text-red-500 text-[10px] uppercase font-bold tracking-wider">{errors.phone}</p>}
+              </div>
+              <div className="space-y-3">
+                <label className="text-xs font-bold uppercase tracking-widest text-zinc-500">What are your needs</label>
+                <div className="relative">
+                  <Zap className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500" size={18} />
+                  <select 
+                    name="needs"
+                    value={formData.needs}
+                    onChange={handleChange}
+                    className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-10 focus:border-brand transition-colors outline-none text-white appearance-none cursor-pointer"
+                  >
+                    <option value="" className="bg-zinc-900">Select a service</option>
+                    <option value="design" className="bg-zinc-900">UI/UX Design</option>
+                    <option value="development" className="bg-zinc-900">Web Development</option>
+                    <option value="marketing" className="bg-zinc-900">Marketing & SEO</option>
+                    <option value="video" className="bg-zinc-900">Video Production</option>
+                    <option value="cyber" className="bg-zinc-900">Cyber Security</option>
+                    <option value="other" className="bg-zinc-900">Other</option>
+                  </select>
+                  <ChevronDown className="absolute right-4 top-1/2 -translate-y-1/2 text-zinc-500 pointer-events-none" size={18} />
+                </div>
               </div>
             </div>
-            <div className="space-y-4">
-              <label className="text-sm font-bold uppercase tracking-widest text-zinc-500">Message</label>
+
+            <div className="space-y-3">
+              <label className="text-xs font-bold uppercase tracking-widest text-zinc-500">Your-subject</label>
               <div className="relative">
-                <MessageSquare className="absolute left-4 top-6 text-zinc-500" size={20} />
-                <textarea rows={4} placeholder="Tell us about your project..." className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-4 focus:border-brand transition-colors outline-none resize-none" />
+                <Tag className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500" size={18} />
+                <input 
+                  type="text" 
+                  name="subject"
+                  value={formData.subject}
+                  onChange={handleChange}
+                  placeholder="Project Inquiry" 
+                  className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 pl-12 pr-4 focus:border-brand transition-colors outline-none text-white" 
+                />
               </div>
             </div>
+
+            <div className="space-y-3">
+              <label className="text-xs font-bold uppercase tracking-widest text-zinc-500">Message</label>
+              <div className="relative">
+                <MessageSquare className="absolute left-4 top-6 text-zinc-500" size={18} />
+                <textarea 
+                  name="message"
+                  value={formData.message}
+                  onChange={handleChange}
+                  rows={4} 
+                  placeholder="Tell us about your project..." 
+                  className={cn(
+                    "w-full bg-white/5 border rounded-2xl py-4 pl-12 pr-4 focus:border-brand transition-colors outline-none resize-none text-white",
+                    errors.message ? "border-red-500/50" : "border-white/10"
+                  )}
+                />
+              </div>
+              {errors.message && <p className="text-red-500 text-[10px] uppercase font-bold tracking-wider">{errors.message}</p>}
+            </div>
+
             <motion.button 
+              type="submit"
+              disabled={isSubmitting}
               whileHover={{ scale: 1.02, boxShadow: "0 0 30px rgba(255, 77, 0, 0.5)" }}
               whileTap={{ scale: 0.98 }}
-              className="w-full bg-brand text-white py-5 rounded-2xl font-bold text-lg hover:bg-brand-dark transition-all brand-glow cursor-pointer"
+              className="w-full bg-brand text-white py-5 rounded-2xl font-bold text-lg hover:bg-brand-dark transition-all brand-glow cursor-pointer flex items-center justify-center gap-3 disabled:opacity-50 disabled:cursor-not-allowed"
             >
-              Send Message
+              {isSubmitting ? (
+                <>
+                  <Loader2 className="animate-spin" size={20} />
+                  Sending...
+                </>
+              ) : (
+                'Send Message'
+              )}
             </motion.button>
           </motion.form>
         </div>
