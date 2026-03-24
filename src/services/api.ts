@@ -101,6 +101,36 @@ export const api = {
       if (error) throw error;
       return data as Project[];
     },
+    getPaginated: async (page: number, limit: number, category?: string) => {
+      const from = (page - 1) * limit;
+      const to = from + limit - 1;
+
+      let query = supabase
+        .from('projects')
+        .select('*', { count: 'exact' })
+        .order('sort_order', { ascending: true })
+        .range(from, to);
+
+      if (category && category !== 'All') {
+        query = query.eq('category', category);
+      }
+
+      const { data, error, count } = await query;
+      if (error) throw error;
+      
+      return {
+        data: data as Project[],
+        count: count || 0
+      };
+    },
+    getCategories: async () => {
+      const { data, error } = await supabase
+        .from('projects')
+        .select('category');
+      if (error) throw error;
+      const categories = Array.from(new Set(data.map(p => p.category)));
+      return categories;
+    },
     create: async (project: Omit<Project, 'id' | 'created_at'>) => {
       const { data, error } = await supabase.from('projects').insert([project]).select().single();
       if (error) throw error;

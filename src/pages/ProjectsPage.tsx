@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowUpRight, ExternalLink, Filter, X } from 'lucide-react';
+import { ArrowUpRight, ExternalLink, Filter, X, Loader2 } from 'lucide-react';
 import { api, Project as SupabaseProject } from '../services/api';
 import { MaskedHeading } from '../components/AnimatedHeading';
 import Logo from '../components/Logo';
@@ -16,6 +16,8 @@ interface Project {
 }
 
 const ProjectGridCard: React.FC<{ project: Project; index: number }> = ({ project, index }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
   return (
     <motion.div
       layout
@@ -27,11 +29,26 @@ const ProjectGridCard: React.FC<{ project: Project; index: number }> = ({ projec
       className="group relative bg-white/5 border border-white/10 rounded-3xl overflow-hidden cursor-pointer"
     >
       {/* Image Container */}
-      <div className="relative aspect-[4/3] overflow-hidden">
+      <div className="relative aspect-[4/3] overflow-hidden bg-white/5">
+        {/* Skeleton Loader */}
+        <AnimatePresence>
+          {!isLoaded && (
+            <motion.div 
+              initial={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="absolute inset-0 bg-white/5 animate-pulse z-10"
+            />
+          )}
+        </AnimatePresence>
+
         <img
           src={project.image}
           alt={project.title}
-          className="w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-700 ease-out"
+          loading="lazy"
+          onLoad={() => setIsLoaded(true)}
+          className={`w-full h-full object-cover grayscale brightness-50 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-700 ease-out ${
+            isLoaded ? 'opacity-100' : 'opacity-0'
+          }`}
           referrerPolicy="no-referrer"
         />
         <div className="absolute inset-0 bg-black/40 group-hover:bg-transparent transition-colors duration-700" />
@@ -75,44 +92,72 @@ const ProjectGridCard: React.FC<{ project: Project; index: number }> = ({ projec
 
 const ProjectsPage: React.FC = () => {
   const [projects, setProjects] = useState<Project[]>([]);
+  const [categories, setCategories] = useState<string[]>(['All']);
   const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
+  const [page, setPage] = useState(1);
+  const [hasMore, setHasMore] = useState(false);
+  const LIMIT = 6;
 
   useEffect(() => {
     window.scrollTo(0, 0);
-    const fetchProjects = async () => {
+    const fetchInitialData = async () => {
       try {
-        const data = await api.projects.getAll();
-        if (data && data.length > 0) {
-          const formattedProjects: Project[] = data.map(p => ({
-            id: p.display_id,
-            title: p.title,
-            category: p.category,
-            image: p.image_url,
-            year: p.year,
-            description: p.description
-          }));
-          setProjects(formattedProjects);
-        }
+        const cats = await api.projects.getCategories();
+        setCategories(['All', ...cats]);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
+    fetchInitialData();
+  }, []);
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      if (page === 1) {
+        setIsLoading(true);
+      } else {
+        setIsLoadingMore(true);
+      }
+
+      try {
+        const { data, count } = await api.projects.getPaginated(page, LIMIT, selectedCategory);
+        
+        const formattedProjects: Project[] = data.map(p => ({
+          id: p.display_id,
+          title: p.title,
+          category: p.category,
+          image: p.image_url,
+          year: p.year,
+          description: p.description
+        }));
+
+        setProjects(prev => page === 1 ? formattedProjects : [...prev, ...formattedProjects]);
+        setHasMore((page * LIMIT) < count);
       } catch (error) {
         console.error('Error fetching projects:', error);
       } finally {
         setIsLoading(false);
+        setIsLoadingMore(false);
       }
     };
 
     fetchProjects();
-  }, []);
+  }, [page, selectedCategory]);
 
-  const categories = useMemo(() => {
-    const cats = projects.map(p => p.category);
-    return ['All', ...Array.from(new Set(cats))];
-  }, [projects]);
+  const handleCategoryChange = (category: string) => {
+    if (category === selectedCategory) return;
+    setSelectedCategory(category);
+    setPage(1);
+    setProjects([]);
+  };
 
-  const filteredProjects = useMemo(() => {
-    if (selectedCategory === 'All') return projects;
-    return projects.filter(p => p.category === selectedCategory);
-  }, [projects, selectedCategory]);
+  const handleLoadMore = () => {
+    if (!isLoadingMore && hasMore) {
+      setPage(prev => prev + 1);
+    }
+  };
 
   return (
     <div className="min-h-screen bg-zinc-950 text-white selection:bg-brand selection:text-white">
@@ -158,7 +203,7 @@ const ProjectsPage: React.FC = () => {
               {categories.map((category) => (
                 <button
                   key={category}
-                  onClick={() => setSelectedCategory(category)}
+                  onClick={() => handleCategoryChange(category)}
                   className={`px-6 py-3 rounded-full text-xs font-bold uppercase tracking-widest transition-all cursor-pointer border ${
                     selectedCategory === category 
                       ? 'bg-brand border-brand text-white shadow-[0_0_20px_rgba(255,77,0,0.3)]' 
@@ -182,14 +227,36 @@ const ProjectsPage: React.FC = () => {
                   <div key={i} className="aspect-[4/5] bg-white/5 rounded-3xl animate-pulse" />
                 ))
               ) : (
-                filteredProjects.map((project, index) => (
+                projects.map((project, index) => (
                   <ProjectGridCard key={project.id} project={project} index={index} />
                 ))
               )}
             </AnimatePresence>
           </motion.div>
 
-          {!isLoading && filteredProjects.length === 0 && (
+          {/* Load More */}
+          {hasMore && (
+            <div className="mt-20 flex justify-center">
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={handleLoadMore}
+                disabled={isLoadingMore}
+                className="px-10 py-4 rounded-2xl bg-white/5 border border-white/10 text-white font-bold text-lg hover:bg-white/10 transition-all flex items-center gap-3 disabled:opacity-50 cursor-pointer"
+              >
+                {isLoadingMore ? (
+                  <>
+                    <Loader2 className="animate-spin" size={20} />
+                    <span>Loading...</span>
+                  </>
+                ) : (
+                  <span>Load More Projects</span>
+                )}
+              </motion.button>
+            </div>
+          )}
+
+          {!isLoading && projects.length === 0 && (
             <div className="text-center py-32">
               <p className="text-zinc-500 text-xl font-display">No projects found in this category.</p>
             </div>
