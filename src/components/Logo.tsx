@@ -15,13 +15,13 @@ const Logo: React.FC<LogoProps> = ({ className, iconOnly = false, variant = 'lig
         variant === 'light' ? "bg-white" : "bg-zinc-900 border border-white/10"
       )}>
         <img 
-          src="/logo.png" 
+          src="./src/assets/images/logo.png" 
           alt="ER Agency Logo" 
-          className="w-8 h-8 object-contain"
+          className="w-10 h-10 object-contain"
           referrerPolicy="no-referrer"
           onError={(e) => {
             // Fallback if logo.png is missing
-            e.currentTarget.src = "https://picsum.photos/seed/er-logo/100/100";
+            e.currentTarget.src = "https://uiyfgajdzijdjmzoormy.supabase.co/storage/v1/object/public/assets/logo.png";
           }}
         />
       </div>
@@ -30,7 +30,7 @@ const Logo: React.FC<LogoProps> = ({ className, iconOnly = false, variant = 'lig
           "font-display font-bold text-2xl tracking-tighter transition-colors",
           variant === 'light' ? "text-white group-hover:text-brand" : "text-white group-hover:text-brand"
         )}>
-          ER Agency
+          Editors Room
         </span>
       )}
     </div>
