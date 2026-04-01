@@ -41,7 +41,7 @@ const HomePage = () => (
 export default function App() {
   return (
     <Router>
-      <ThemeProvider defaultTheme="light" storageKey="editors-room-theme">
+      <ThemeProvider defaultTheme="dark" storageKey="editors-room-theme">
         <div className="min-h-screen bg-background font-sans antialiased selection:bg-primary/30 selection:text-primary-foreground relative overflow-hidden">
           <Routes>
             {/* Frontend Routes */}
