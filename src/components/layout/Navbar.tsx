@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence, useReducedMotion } from 'motion/react';
 import { Menu, X, Moon, Sun, ArrowRight, Github, Twitter, Linkedin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/src/context/ThemeContext';
@@ -21,6 +21,73 @@ const socialLinks = [
   { icon: Github, href: '#' },
   { icon: Linkedin, href: '#' },
 ];
+
+// ── Mobile nav item with hover/tap effect ──────────────────────────────────
+interface MobileNavItemProps {
+  item: { name: string; href: string };
+  idx: number;
+  onClick: () => void;
+}
+
+const MobileNavItem = ({ item, idx, onClick }: MobileNavItemProps) => {
+  const shouldReduce = useReducedMotion();
+
+  const variants = {
+    rest:    { scale: 1,    backgroundColor: 'transparent' },
+    pressed: { scale: shouldReduce ? 1 : 0.97, backgroundColor: 'color-mix(in oklch, var(--color-primary) 10%, transparent)' },
+  };
+
+  const labelVariants = {
+    rest:    { x: 0,  color: 'color-mix(in oklch, var(--color-foreground) 60%, transparent)' },
+    pressed: { x: 6,  color: 'var(--color-primary)' },
+  };
+
+  const arrowVariants = {
+    rest:    { opacity: 0, x: -8 },
+    pressed: { opacity: 1, x: 0  },
+  };
+
+  const transition = { duration: 0.18, ease: [0.16, 1, 0.3, 1] as number[] };
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, x: -24 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ delay: 0.05 + idx * 0.06, ease: [0.16, 1, 0.3, 1] }}
+    >
+      <motion.div
+        variants={variants}
+        initial="rest"
+        whileHover="pressed"
+        whileTap="pressed"
+        transition={transition}
+        className="relative border-b border-foreground/5 rounded-xl overflow-hidden cursor-pointer"
+      >
+        <Link
+          to={item.href}
+          onClick={onClick}
+          className="flex items-center justify-between py-4 px-3"
+        >
+          <motion.span
+            variants={labelVariants}
+            transition={transition}
+            className="text-3xl sm:text-4xl font-bold tracking-tight"
+          >
+            {item.name}
+          </motion.span>
+
+          <motion.span
+            variants={arrowVariants}
+            transition={transition}
+            style={{ color: 'var(--color-primary)' }}
+          >
+            <ArrowRight className="w-6 h-6" />
+          </motion.span>
+        </Link>
+      </motion.div>
+    </motion.div>
+  );
+};
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -185,24 +252,12 @@ export const Navbar = () => {
                   Navigation
                 </p>
                 {navItems.map((item, idx) => (
-                  <motion.div
+                  <MobileNavItem
                     key={item.name}
-                    initial={{ opacity: 0, x: -24 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.05 + idx * 0.06, ease: [0.16, 1, 0.3, 1] }}
-                  >
-                    <Link
-                      to={item.href}
-                      onClick={() => handleNavClick(item.href)}
-                      className="flex items-center justify-between py-4 px-2 text-3xl sm:text-4xl font-bold text-foreground/60 hover:text-foreground border-b border-foreground/5 group transition-colors duration-200"
-                    >
-                      <span className="relative">
-                        {item.name}
-                        <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
-                      </span>
-                      <ArrowRight className="w-6 h-6 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-primary" />
-                    </Link>
-                  </motion.div>
+                    item={item}
+                    idx={idx}
+                    onClick={() => handleNavClick(item.href)}
+                  />
                 ))}
               </nav>
 
