@@ -124,7 +124,7 @@ export const About = () => {
   };
 
   return (
-    <Section id="about" ref={sectionRef} className="relative overflow-visible">
+    <Section id="about" ref={sectionRef} className="overflow-visible">
       {/* Background Decorations with Parallax */}
       <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden -z-10">
         <motion.div 

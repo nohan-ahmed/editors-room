@@ -12,7 +12,7 @@ export const Section = React.forwardRef<HTMLElement, SectionProps>(
     return (
       <motion.section
         ref={ref}
-        className={cn('py-20 md:py-32 overflow-hidden', className)}
+        className={cn('py-20 md:py-32 relative', className)}
         {...props}
       >
         <div className={cn('container mx-auto px-4 md:px-6', containerClassName)}>

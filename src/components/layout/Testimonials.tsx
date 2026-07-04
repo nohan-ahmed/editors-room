@@ -122,7 +122,7 @@ export const Testimonials = () => {
   const secondRow = (data || []).slice(Math.ceil((data || []).length / 2));
 
   return (
-    <Section id="testimonials" className="bg-muted/30 overflow-hidden relative py-24 md:py-32 px-0">
+    <Section id="testimonials" className="bg-muted/30 overflow-hidden py-24 md:py-32">
       {/* Background Decorative Elements - Subtle Gradient Section */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_50%_50%,rgba(var(--primary-rgb),0.03),transparent_70%)]" />
@@ -130,7 +130,7 @@ export const Testimonials = () => {
         <div className="absolute bottom-[-20%] right-[-10%] w-[70%] h-[70%] bg-purple-500/3 rounded-full blur-[140px]" />
       </div>
 
-      <div className="container mx-auto px-4 md:px-6 relative z-10 mb-16 md:mb-24">
+      <div className="container mx-auto px-4 md:px-6 relative z-10 mb-16 md:mb-20">
         <div className="text-center max-w-3xl mx-auto flex flex-col items-center">
           <ScrollReveal
             delay={0}

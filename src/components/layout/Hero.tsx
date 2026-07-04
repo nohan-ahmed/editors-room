@@ -67,9 +67,9 @@ export const Hero = () => {
   const displayAvatars = testimonialAvatars.length > 0 ? testimonialAvatars : defaultAvatars;
 
   return (
-    <Section className="pt-32 pb-20 md:pt-48 md:pb-32 relative overflow-hidden">
+    <Section className="pt-28 pb-20 md:pt-44 md:pb-32 overflow-hidden">
       {/* Background Gradients */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-7xl h-full -z-10 pointer-events-none">
+      <div className="absolute inset-0 pointer-events-none -z-10 overflow-hidden">
         <div className="absolute top-[-10%] left-1/4 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[150px] animate-pulse" />
         <div className="absolute bottom-[-10%] right-1/4 w-[600px] h-[600px] bg-purple-500/10 rounded-full blur-[150px] animate-pulse delay-700" />
       </div>
@@ -176,11 +176,14 @@ export const Hero = () => {
           
           {brands.length > 0 && (
             <div className="relative flex overflow-x-hidden">
-              <div className="animate-marquee whitespace-nowrap flex items-center gap-12 sm:gap-20 md:gap-32" style={{ '--duration': '30s', '--gap': '80px' } as React.CSSProperties}>
+              <div
+                className="animate-marquee whitespace-nowrap flex items-center"
+                style={{ '--duration': '30s', '--gap': '80px', gap: '80px' } as React.CSSProperties}
+              >
                 {[...Array(2)].map((_, i) => (
-                  <div key={i} className="flex items-center gap-12 sm:gap-20 md:gap-32 opacity-40 grayscale hover:grayscale-0 transition-all duration-500 pr-12 sm:pr-20 md:pr-32">
+                  <div key={i} className="flex items-center shrink-0" style={{ gap: '80px' }}>
                     {brands.map((brand) => (
-                      <span key={brand} className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tighter text-foreground/80 hover:text-foreground transition-colors cursor-default">
+                      <span key={brand} className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tighter text-foreground/80 hover:text-foreground transition-colors cursor-default opacity-40 grayscale hover:grayscale-0 hover:opacity-100">
                         {brand}
                       </span>
                     ))}

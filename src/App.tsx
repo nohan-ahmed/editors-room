@@ -25,7 +25,7 @@ import { Settings } from './pages/admin/Settings';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 
 const HomePage = () => (
-  <main className="relative z-10">
+  <main>
     <Hero />
     <Services />
     <About />
@@ -42,7 +42,7 @@ export default function App() {
   return (
     <Router>
       <ThemeProvider defaultTheme="dark" storageKey="editors-room-theme">
-        <div className="min-h-screen bg-background font-sans antialiased selection:bg-primary/30 selection:text-primary-foreground relative overflow-hidden">
+        <div className="min-h-screen bg-background font-sans antialiased selection:bg-primary/30 selection:text-primary-foreground">
           <Routes>
             {/* Frontend Routes */}
             <Route element={<MainLayout />}>
