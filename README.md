@@ -42,9 +42,8 @@ Editors Room is a full-stack agency web application featuring a public-facing ma
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 22+
 - A [Supabase](https://supabase.com) project
-- A [Google Gemini](https://aistudio.google.com) API key
 
 ### 1. Install dependencies
 
@@ -62,7 +61,6 @@ cp .env.example .env.local
 
 | Variable | Description |
 |---|---|
-| `GEMINI_API_KEY` | Your Google Gemini API key |
 | `VITE_SUPABASE_URL` | Your Supabase project URL |
 | `VITE_SUPABASE_ANON_KEY` | Your Supabase anonymous (public) key |
 
