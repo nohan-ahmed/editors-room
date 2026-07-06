@@ -178,12 +178,12 @@ export const BookCallModal = ({ trigger, open: controlledOpen, onOpenChange: set
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       {trigger && <DialogTrigger asChild>{trigger}</DialogTrigger>}
-      <DialogContent className="sm:max-w-[700px] p-0 overflow-hidden border-none bg-transparent shadow-none">
+      <DialogContent className="w-[calc(100vw-2rem)] sm:w-[90vw] sm:max-w-[700px] max-h-[calc(100dvh-5rem)] top-[calc(50%+2.5rem)] sm:top-1/2 p-0 overflow-y-auto overflow-x-hidden border-none bg-transparent shadow-none">
         <motion.div
           initial={{ opacity: 0, scale: 0.95, y: 20 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="relative w-full glass-card p-6 md:p-10 rounded-[2.5rem] border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.3)] overflow-hidden"
+          className="relative w-full glass-card p-4 sm:p-6 md:p-10 rounded-2xl sm:rounded-[2.5rem] border border-white/10 shadow-[0_0_50px_rgba(0,0,0,0.3)] overflow-hidden"
         >
           {/* Background Blobs */}
           <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 rounded-full blur-[80px] pointer-events-none" />
@@ -198,14 +198,14 @@ export const BookCallModal = ({ trigger, open: controlledOpen, onOpenChange: set
                 exit={{ opacity: 0, x: -20 }}
                 className="relative z-10"
               >
-                <div className="flex items-center justify-between mb-8">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center border border-primary/20">
-                      <Video className="w-5 h-5 text-primary" />
+                <div className="flex items-center justify-between mb-6 sm:mb-8 gap-3">
+                  <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                    <div className="w-9 h-9 sm:w-10 sm:h-10 shrink-0 rounded-xl bg-primary/10 flex items-center justify-center border border-primary/20">
+                      <Video className="w-4 h-4 sm:w-5 sm:h-5 text-primary" />
                     </div>
-                    <div>
-                      <h2 className="text-2xl font-bold tracking-tight">Book a Strategy Call</h2>
-                      <p className="text-sm text-foreground/50">30-minute discovery session</p>
+                    <div className="min-w-0">
+                      <h2 className="text-lg sm:text-2xl font-bold tracking-tight leading-tight">Book a Strategy Call</h2>
+                      <p className="text-xs sm:text-sm text-foreground/50">30-minute discovery session</p>
                     </div>
                   </div>
                   
@@ -227,7 +227,7 @@ export const BookCallModal = ({ trigger, open: controlledOpen, onOpenChange: set
                   </div>
                 </div>
 
-                <div className="min-h-[400px]">
+                <div className="min-h-[320px] sm:min-h-[400px]">
                   <AnimatePresence mode="wait">
                     {step === 1 && (
                       <motion.div
@@ -235,7 +235,7 @@ export const BookCallModal = ({ trigger, open: controlledOpen, onOpenChange: set
                         initial={{ opacity: 0, y: 10 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
-                        className="flex flex-col md:flex-row gap-8 items-start"
+                        className="flex flex-col md:flex-row gap-4 sm:gap-6 md:gap-8 items-start"
                       >
                         <div className="flex-1 w-full">
                           <h3 className="text-lg font-bold mb-4 flex items-center gap-2">
@@ -249,14 +249,14 @@ export const BookCallModal = ({ trigger, open: controlledOpen, onOpenChange: set
                             className="rounded-2xl border border-foreground/10 bg-foreground/5 p-4 w-full"
                           />
                         </div>
-                        <div className="w-full md:w-64 space-y-4">
-                          <div className="p-6 rounded-2xl bg-primary/5 border border-primary/10">
-                            <h4 className="text-sm font-bold uppercase tracking-widest text-primary mb-2">Selected Date</h4>
-                            <p className="text-2xl font-bold">
+                        <div className="w-full md:w-64 space-y-3 sm:space-y-4">
+                          <div className="p-4 sm:p-6 rounded-2xl bg-primary/5 border border-primary/10">
+                            <h4 className="text-xs sm:text-sm font-bold uppercase tracking-widest text-primary mb-1 sm:mb-2">Selected Date</h4>
+                            <p className="text-xl sm:text-2xl font-bold">
                               {selectedDate ? format(selectedDate, 'MMM dd, yyyy') : 'Pick a date'}
                             </p>
                           </div>
-                          <p className="text-sm text-foreground/50 leading-relaxed">
+                          <p className="text-xs sm:text-sm text-foreground/50 leading-relaxed hidden sm:block">
                             Choose a date that works best for you. We'll show available times on the next step.
                           </p>
                           <Button 
@@ -278,12 +278,12 @@ export const BookCallModal = ({ trigger, open: controlledOpen, onOpenChange: set
                         exit={{ opacity: 0, y: -10 }}
                         className="space-y-6"
                       >
-                        <div className="flex items-center justify-between">
-                          <h3 className="text-lg font-bold flex items-center gap-2">
+                        <div className="flex flex-wrap items-center justify-between gap-2">
+                          <h3 className="text-base sm:text-lg font-bold flex items-center gap-2">
                             <Clock className="w-4 h-4 text-primary" /> Select a Time Slot
                           </h3>
-                          <Badge variant="outline" className="rounded-full px-3 py-1 border-foreground/10">
-                            {selectedDate && format(selectedDate, 'EEEE, MMMM dd')}
+                          <Badge variant="outline" className="rounded-full px-2 sm:px-3 py-1 border-foreground/10 text-xs">
+                            {selectedDate && format(selectedDate, 'EEE, MMM dd')}
                           </Badge>
                         </div>
 
@@ -298,8 +298,8 @@ export const BookCallModal = ({ trigger, open: controlledOpen, onOpenChange: set
                             <p className="text-foreground/50">No available slots for this date.</p>
                           </div>
                         ) : (
-                          <ScrollArea className="h-[300px] pr-4">
-                            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                          <ScrollArea className="h-[220px] sm:h-[300px] pr-2 sm:pr-4">
+                            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2 sm:gap-3">
                               {slots.map((slot) => {
                                 const isBooked = bookedSlots.includes(slot.id);
                                 return (
@@ -344,13 +344,13 @@ export const BookCallModal = ({ trigger, open: controlledOpen, onOpenChange: set
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                       >
-                        <div className="flex items-center justify-between mb-6">
-                          <h3 className="text-lg font-bold flex items-center gap-2">
+                        <div className="flex flex-wrap items-start justify-between gap-2 mb-4 sm:mb-6">
+                          <h3 className="text-base sm:text-lg font-bold flex items-center gap-2">
                             <User className="w-4 h-4 text-primary" /> Complete Your Booking
                           </h3>
-                          <div className="text-right">
-                            <p className="text-xs font-bold text-primary uppercase tracking-widest">Selected Time</p>
-                            <p className="text-sm font-medium">
+                          <div className="text-right shrink-0">
+                            <p className="text-[10px] font-bold text-primary uppercase tracking-widest">Selected Time</p>
+                            <p className="text-xs sm:text-sm font-medium">
                               {selectedDate && format(selectedDate, 'MMM dd')} at {selectedSlot && formatTime(selectedSlot.slot_time)}
                             </p>
                           </div>
@@ -397,7 +397,7 @@ export const BookCallModal = ({ trigger, open: controlledOpen, onOpenChange: set
 
                           <div className="space-y-1.5">
                             <Label className="text-[10px] font-bold uppercase tracking-widest text-foreground/40 ml-1">Message (Optional)</Label>
-                            <Textarea {...register('message')} className="min-h-[80px] rounded-xl bg-foreground/5 border-foreground/10 resize-none" placeholder="Tell us about your project..." />
+                            <Textarea {...register('message')} className="min-h-[60px] sm:min-h-[80px] rounded-xl bg-foreground/5 border-foreground/10 resize-none" placeholder="Tell us about your project..." />
                           </div>
 
                           <div className="flex items-center gap-4 pt-4">
@@ -428,11 +428,11 @@ export const BookCallModal = ({ trigger, open: controlledOpen, onOpenChange: set
                 <div className="w-24 h-24 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-8 border border-primary/20">
                   <CheckCircle className="w-12 h-12 text-primary animate-in zoom-in duration-500" />
                 </div>
-                <h3 className="text-3xl font-bold text-foreground mb-4">Call Scheduled!</h3>
-                <p className="text-foreground/60 text-lg max-w-sm mx-auto leading-relaxed">
+                <h3 className="text-2xl sm:text-3xl font-bold text-foreground mb-3 sm:mb-4">Call Scheduled!</h3>
+                <p className="text-foreground/60 text-sm sm:text-lg max-w-sm mx-auto leading-relaxed">
                   Your strategy call has been successfully booked for <span className="text-foreground font-bold">{selectedDate && format(selectedDate, 'MMM dd')} at {selectedSlot && formatTime(selectedSlot.slot_time)}</span>.
                 </p>
-                <div className="mt-12 p-6 rounded-2xl bg-foreground/5 border border-foreground/10 text-left max-w-sm mx-auto">
+                <div className="mt-6 sm:mt-12 p-4 sm:p-6 rounded-2xl bg-foreground/5 border border-foreground/10 text-left max-w-sm mx-auto">
                   <p className="text-xs font-bold uppercase tracking-widest text-foreground/40 mb-4">What's Next?</p>
                   <div className="space-y-3">
                     <div className="flex items-center gap-3 text-foreground/80">
