@@ -1,4 +1,4 @@
-import { ArrowRight, Phone } from 'lucide-react';
+import { ArrowRight, CalendarDays } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Section } from './Section';
 import { ScrollReveal } from '@/src/components/animations/ScrollReveal';
@@ -32,8 +32,12 @@ export const CTA = () => {
             </Button>
             <BookCallModal 
               trigger={
-                <Button size="lg" variant="outline" className="rounded-full px-10 h-14 text-lg border-border hover:bg-muted gap-2">
-                  <Phone className="w-4 h-4" /> Book a Call
+                <Button size="lg" variant="neon" className="rounded-full px-10 h-14 text-lg gap-2 book-call-neon">
+                  <span className="relative flex h-2.5 w-2.5 shrink-0">
+                    <span className="pulse-ring absolute inline-flex h-full w-full rounded-full bg-primary" />
+                    <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-primary" />
+                  </span>
+                  <CalendarDays className="w-4 h-4" /> Book a Call
                 </Button>
               }
             />

@@ -169,10 +169,11 @@ export const Navbar = () => {
               <BookCallModal
                 trigger={
                   <Button
+                    variant="neon"
                     size="sm"
-                    className="rounded-full px-7 h-10 bg-foreground/10 hover:bg-foreground/20 border border-foreground/20 backdrop-blur-md text-foreground hover:scale-105 active:scale-95 shadow-lg shadow-foreground/5"
+                    className="rounded-full px-7 h-10"
                   >
-                    Get Started
+                    Book a Call
                   </Button>
                 }
               />
@@ -274,8 +275,11 @@ export const Navbar = () => {
                   </p>
                   <BookCallModal
                     trigger={
-                      <Button className="w-full h-14 rounded-2xl text-base font-bold bg-gradient-to-r from-primary to-purple-600 shadow-lg shadow-primary/20 text-white gap-2">
-                        Book a Call <ArrowRight className="w-4 h-4" />
+                      <Button
+                        variant="neon"
+                        className="w-full h-14 rounded-2xl text-base font-bold"
+                      >
+                        Book a Call
                       </Button>
                     }
                   />

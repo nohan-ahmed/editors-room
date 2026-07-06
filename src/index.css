@@ -148,6 +148,106 @@
     writing-mode: vertical-rl;
   }
 
+  /* ── Button ambient glow pulse (applied to default variant at rest) ── */
+  @keyframes btn-glow-pulse {
+    0%, 100% {
+      box-shadow:
+        0 0 0 0 transparent,
+        0 0 12px -2px color-mix(in oklch, var(--color-primary) 0%, transparent);
+    }
+    50% {
+      box-shadow:
+        0 0 0 0 transparent,
+        0 0 18px -2px color-mix(in oklch, var(--color-primary) 30%, transparent);
+    }
+  }
+
+  .btn-glow {
+    animation: btn-glow-pulse 3s ease-in-out infinite;
+  }
+
+  /* ── Neon border: rotating conic-gradient ── */
+  @keyframes neon-spin {
+    from { --neon-angle: 0deg; }
+    to   { --neon-angle: 360deg; }
+  }
+
+  @property --neon-angle {
+    syntax: '<angle>';
+    inherits: false;
+    initial-value: 0deg;
+  }
+
+  /* ── Book-a-Call continuous neon glow pulse ── */
+  @keyframes book-call-glow {
+    0%, 100% {
+      box-shadow:
+        0 0 8px  -2px color-mix(in oklch, var(--color-primary) 50%, transparent),
+        0 0 20px -4px color-mix(in oklch, var(--color-primary) 30%, transparent);
+    }
+    33% {
+      box-shadow:
+        0 0 14px -2px oklch(0.72 0.25 300 / 0.6),
+        0 0 32px -4px oklch(0.72 0.25 300 / 0.35);
+    }
+    66% {
+      box-shadow:
+        0 0 14px -2px oklch(0.75 0.2 200 / 0.55),
+        0 0 32px -4px oklch(0.75 0.2 200 / 0.3);
+    }
+  }
+
+  .book-call-neon {
+    animation: book-call-glow 3s ease-in-out infinite;
+  }
+
+  /* ── Pulse ring for Book-a-Call dot ── */
+  @keyframes pulse-ring {
+    0%   { transform: scale(1);   opacity: 0.8; }
+    70%  { transform: scale(2.2); opacity: 0; }
+    100% { transform: scale(2.2); opacity: 0; }
+  }
+
+  .pulse-ring {
+    animation: pulse-ring 1.8s ease-out infinite;
+  }
+
+  .btn-neon-border::before {
+    content: '';
+    position: absolute;
+    inset: -1.5px;
+    border-radius: inherit;
+    background: conic-gradient(
+      from var(--neon-angle),
+      transparent 0%,
+      var(--neon-a) 15%,
+      var(--neon-b) 30%,
+      transparent 45%,
+      transparent 55%,
+      var(--neon-a) 70%,
+      var(--neon-b) 85%,
+      transparent 100%
+    );
+    animation: neon-spin 3s linear infinite;
+    z-index: -1;
+    opacity: 0;
+    transition: opacity 0.4s ease;
+  }
+
+  .btn-neon-border::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: inherit;
+    z-index: -1;
+  }
+
+  .btn-neon-border:hover::before,
+  .btn-neon-border:focus-visible::before {
+    opacity: 1;
+  }
+
   @keyframes float {
     0%, 100% { transform: translateY(0); }
     50% { transform: translateY(-20px); }
